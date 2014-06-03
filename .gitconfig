@@ -4,10 +4,12 @@
 	st = status
 	br = branch
 	hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+	l = log --pretty=format:\"%h %ad | %s%d [%an]\" --date=short
 	type = cat-file -t
 	dump = cat-file -p
 	added = whatchanged --diff-filter=A --pretty=format:\"%h %ad | %s%d [%an]\" --date=short
 [color]
+	diff = auto
 	ui = 1
 [rerere]
 	enabled = 1
