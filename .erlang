@@ -1,2 +1,2 @@
-code:add_path(os:getenv("HOME") ++ "/util/ebin").
+code:add_path(filename:join(os:getenv("HOME"), "erlang_utils/ebin")).
 code:ensure_loaded(user_default).
