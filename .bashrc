@@ -11,6 +11,7 @@ alias e='emacsclient -t'
 alias br='git rev-parse --symbolic-full-name --abbrev-ref HEAD'
 alias dirsize='du -h --max-depth=1'
 alias gs='git status --short -uno'
+alias grep='grep --color=auto'
 
 export EDITOR='emacsclient -t'
 
