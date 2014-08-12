@@ -3,7 +3,11 @@ if [ -f /etc/bashrc ]; then
     . /etc/bashrc
 fi
 
-export PS1="\[\e]0;\w\a\]\n\[\e[32m\]\l:\u@\h \[\e[33m\]\w\[\e[0m\]\n"
+if [ -f .git-prompt.sh ]; then
+    . .git-prompt.sh
+fi
+
+export PS1='\[\e]0;\w\a\]\n\[\e[32m\]\l:\u@\h\[\e[31m\]$(__git_ps1 " [%s]") \[\e[33m\]\w\[\e[0m\]\n'
 export PATH=$PATH:$HOME/bin
 export HISTCONTROL=ignoredups
 export HISTSIZE=10000
