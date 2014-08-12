@@ -1,11 +1,6 @@
 # Source global definitions
-if [ -f /etc/bashrc ]; then
-    . /etc/bashrc
-fi
-
-if [ -f .git-prompt.sh ]; then
-    . .git-prompt.sh
-fi
+[ -f /etc/bashrc ] && . /etc/bashrc
+[ -f ~/.git-prompt.sh ] && . ~/.git-prompt.sh
 
 export PS1='\[\e]0;\w\a\]\n\[\e[32m\]\l:\u@\h\[\e[31m\]$(__git_ps1 " [%s]") \[\e[33m\]\w\[\e[0m\]\n'
 export PATH=$PATH:$HOME/bin
