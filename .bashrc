@@ -14,6 +14,7 @@ alias br='git rev-parse --symbolic-full-name --abbrev-ref HEAD'
 alias dirsize='du -h --max-depth=1'
 alias gs='git status --short -uno'
 alias grep='grep --color=auto'
+alias fuck='sudo $(history -p \!\!)'
 
 if [ `uname` == Darwin ]; then
     export LSCOLORS="Hxfxcxdxbxegedabagacad"
