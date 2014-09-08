@@ -16,6 +16,15 @@ alias gs='git status --short -uno'
 alias grep='grep --color=auto'
 alias fuck='sudo $(history -p \!\!)'
 
+port_pids() {
+  sudo netstat -ltp | grep $1 | sort -u
+}
+
+kill_port_pids() {
+  sudo netstat -ltp | grep $1 | awk '{print substr($7,1,index($7, "/") - 1)}' | \
+      sort -u | xargs sudo kill
+}
+
 if [ `uname` == Darwin ]; then
     export LSCOLORS="Hxfxcxdxbxegedabagacad"
     alias ls='ls -G'
