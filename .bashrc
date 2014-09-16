@@ -6,6 +6,7 @@ export PS1='\[\e]0;\w\a\]\n[\D{%F %T}] \[\e[32m\]\u@\h\[\e[31m\]$(__git_ps1 " [%
 export PATH=$PATH:$HOME/bin
 export HISTCONTROL=ignoredups
 export HISTSIZE=10000
+export HISTTIMEFORMAT="[%F %T] "
 export LC_CTYPE="en_US.UTF-8"
 export EDITOR='emacsclient -t'
 
