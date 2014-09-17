@@ -50,3 +50,5 @@ calc() {
     printf "\n"
 }
 
+# host custom config
+[ -f ~/.bashrc.custom ] && . ~/.bashrc.custom
