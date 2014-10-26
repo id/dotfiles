@@ -1,0 +1,10 @@
+Optimized to be used with GNU Stow.
+Stow will create corresponding symlinks in the parent directory. E.g if you put 'dotfiles' in your home directory, 'stow bash' will create a symlink ~/.bashrc pointing to ~/dotfiles/bash/.bashrc.
+
+Each package can (actually, must) be installed separately:
+stow emacs
+stow bash
+stow tmux
+stow bin
+stow erlang
+
