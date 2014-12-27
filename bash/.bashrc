@@ -9,6 +9,7 @@ export HISTSIZE=10000
 export HISTTIMEFORMAT="[%F %T] "
 export LC_CTYPE="en_US.UTF-8"
 export EDITOR='emacsclient -t'
+export GPG_TTY=$(tty)
 
 alias e='emacsclient -t'
 alias br='git rev-parse --symbolic-full-name --abbrev-ref HEAD'
