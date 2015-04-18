@@ -8,6 +8,11 @@ else
     git_branch_cmd='git rev-parse --symbolic-full-name --abbrev-ref HEAD'
     export PS1='\[\e]0;\w\a\]\n[\D{%F %T}] \[\e[32m\]\u@\h\[\e[31m\] [$(${git_branch_cmd})] \[\e[33m\]\w\[\e[0m\]\n'
 fi
+
+if [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+fi
+
 export PATH=$PATH:$HOME/bin
 export HISTCONTROL=ignoredups
 export HISTSIZE=10000
