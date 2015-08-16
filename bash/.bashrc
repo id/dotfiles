@@ -1,13 +1,8 @@
 # Source global definitions
 [ -f /etc/bashrc ] && . /etc/bashrc
-if [ -f ~/.git-prompt.sh ]; then
-    . ~/.git-prompt.sh
-    export PS1='\[\e]0;\w\a\]\n[\D{%F %T}] \[\e[32m\]\u@\h\[\e[31m\]$(__git_ps1 " [%s]") \[\e[33m\]\w\[\e[0m\]\n'
-else
-    # show just a branch name if git-prompt.sh is unavailable
-    git_branch_cmd='git rev-parse --symbolic-full-name --abbrev-ref HEAD'
-    export PS1='\[\e]0;\w\a\]\n[\D{%F %T}] \[\e[32m\]\u@\h\[\e[31m\] [$(${git_branch_cmd})] \[\e[33m\]\w\[\e[0m\]\n'
-fi
+
+. /usr/share/git-core/contrib/completion/git-prompt.sh
+export PS1='\[\e]0;\w\a\]\n[\D{%F %T}] \[\e[32m\]\u@\h\[\e[31m\]$(__git_ps1 " [%s]") \[\e[33m\]\w\[\e[0m\]\n'
 
 if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
