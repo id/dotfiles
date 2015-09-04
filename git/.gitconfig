@@ -1,3 +1,7 @@
+[user]
+	name = Ivan Dyachkov
+	email = ivan.dyachkov@klarna.com
+
 [alias]
 	co = checkout
 	ci = commit
@@ -15,3 +19,5 @@
 	enabled = 1
 [core]
 	abbrev = 8
+[push]
+	default = matching
