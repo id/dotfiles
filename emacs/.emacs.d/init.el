@@ -1,5 +1,3 @@
-(add-to-list 'load-path "~/.emacs.d")
-
 (setq whitespace-style '(tabs trailing lines tab-mark))
 (setq whitespace-line-column 80)
 (setq-default show-trailing-whitespace t)
@@ -16,8 +14,6 @@
 (global-linum-mode 1)
 (setq linum-format "%d ")
 (fset 'yes-or-no-p 'y-or-n-p)
-(global-hl-line-mode 1)
-(set-face-attribute 'hl-line nil :underline nil)
 (delete-selection-mode 1)
 (global-auto-revert-mode 1)
 
@@ -67,8 +63,6 @@
 (add-hook 'magit-log-edit-mode-hook
           '(lambda ()
              (shell-command "./.git/hooks/prepare-commit-msg")))
-
-(load-theme 'ir-black t)
 
 (put 'downcase-region 'disabled nil)
 
