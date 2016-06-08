@@ -1,11 +1,13 @@
 # Source global definitions
 [ -f /etc/bashrc ] && . /etc/bashrc
+[ -f /etc/bash_completion ] && . /etc/bash_completion
 
-. /usr/share/git-core/contrib/completion/git-prompt.sh
-export PS1='\[\e]0;\w\a\]\n[\D{%F %T}] \[\e[32m\]\u@\h\[\e[31m\]$(__git_ps1 " [%s]") \[\e[33m\]\w\[\e[0m\]\n'
-
-if [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
+GIT_PROMPT=~/.git-prompt.sh
+if [ -f $GIT_PROMPT ]; then
+    . $GIT_PROMPT
+    export PS1='\e[0m\n[\D{%F %T}] \e[32m\u\e[0m\e[1m@\e[32m\h\e[0m \e[31m\]$(__git_ps1 "[%s]") \e[33m\w\e[0m\n'
+else
+    export PS1='\e[0m\n[\D{%F %T}] \e[32m\u\e[0m\e[1m@\e[32m\h\e[0m \e[33m\w\e[0m\n'
 fi
 
 export PATH=$PATH:$HOME/bin
@@ -15,6 +17,15 @@ export HISTTIMEFORMAT="[%F %T] "
 export LC_CTYPE="en_US.UTF-8"
 export EDITOR='emacsclient -t'
 export GPG_TTY=$(tty)
+
+if [ $(uname) == Darwin ]; then
+    export LSCOLORS="Hxfxcxdxbxegedabagacad"
+    alias ls='ls -G'
+    alias ll='ls -alhG'
+else
+    alias ls='ls --color=auto'
+    alias ll='ls -al --color=auto'
+fi
 
 alias e='emacsclient -t'
 alias br='git rev-parse --symbolic-full-name --abbrev-ref HEAD'
