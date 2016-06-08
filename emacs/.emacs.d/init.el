@@ -3,6 +3,7 @@
 (setq-default show-trailing-whitespace t)
 (set-face-attribute 'trailing-whitespace nil :background "red1" :weight 'bold)
 (global-whitespace-mode 1)
+(menu-bar-mode -1)
 
 (defun highlight-tabs ()
   "Highlight tab characters."
@@ -13,6 +14,17 @@
 (column-number-mode 1)
 (global-linum-mode 1)
 (setq linum-format "%d ")
+
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+(when (< emacs-major-version 24)
+  ;; For important compatibility libraries like cl-lib
+    (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/")))
+
+(package-initialize)
+
+(setq scroll-conservatively most-positive-fixnum)
+
 (fset 'yes-or-no-p 'y-or-n-p)
 (delete-selection-mode 1)
 (global-auto-revert-mode 1)
@@ -36,12 +48,6 @@
   kept-new-versions 6
   kept-old-versions 2
   version-control t)
-
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
-(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
-
-(package-initialize)
 
 (require 'ido)
 (ido-mode t)
