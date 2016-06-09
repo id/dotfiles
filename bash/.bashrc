@@ -5,7 +5,7 @@
 GIT_PROMPT=~/.git-prompt.sh
 if [ -f $GIT_PROMPT ]; then
     . $GIT_PROMPT
-    export PS1='\e[0m\n[\D{%F %T}] \e[32m\u\e[0m\e[1m@\e[32m\h\e[0m \e[31m\]$(__git_ps1 "[%s]") \e[33m\w\e[0m\n'
+    export PS1='\e[0m\n[\D{%F %T}] \e[32m\u\e[0m\e[1m@\e[32m\h\e[0m\e[31m\]$(__git_ps1 " [%s]") \e[33m\w\e[0m\n'
 else
     export PS1='\e[0m\n[\D{%F %T}] \e[32m\u\e[0m\e[1m@\e[32m\h\e[0m \e[33m\w\e[0m\n'
 fi
