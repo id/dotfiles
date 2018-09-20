@@ -16,12 +16,12 @@
 (setq linum-format "%d ")
 
 (require 'package)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-(when (< emacs-major-version 24)
-  ;; For important compatibility libraries like cl-lib
-    (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/")))
-
+(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                         ("marmalade" . "https://marmalade-repo.org/packages/")
+                         ("melpa" . "https://melpa.org/packages/")))
 (package-initialize)
+
+(load-theme 'ir-black t)
 
 (setq scroll-conservatively most-positive-fixnum)
 
@@ -31,6 +31,9 @@
 
 (global-set-key [?\M-p] 'scroll-down-line)
 (global-set-key [?\M-n] 'scroll-up-line)
+
+(setq-default erlang-indent-level 2)
+(setq-default allout-layout t)
 
 (setq-default tab-width 2)
 (setq-default indent-tabs-mode nil)
