@@ -10,6 +10,16 @@ else
     export PS1='\e[0m\n[\D{%F %T}] \e[32m\u\e[0m\e[1m@\e[32m\h\e[0m \e[33m\w\e[0m\n'
 fi
 
+if [ -f $(brew --prefix)/etc/bash_completion ]; then
+  . $(brew --prefix)/etc/bash_completion
+fi
+if [ -f $(brew --prefix)/etc/bash_completion.d/git-completion.bash ]; then
+  . $(brew --prefix)/etc/bash_completion.d/git-completion.bash
+fi
+if [ -f `brew --prefix`/etc/bash_completion.d/git-flow-completion.bash ]; then
+  . `brew --prefix`/etc/bash_completion.d/git-flow-completion.bash
+fi
+
 # cmdhist: Bash attempts to save all lines of a multiple-line command in the same history entry. This allows easy re-editing of multi-line commands.
 # nocaseglob: Bash matches filenames in a case-insensitive fashion when performing filename expansion.
 shopt -sq cmdhist nocaseglob
