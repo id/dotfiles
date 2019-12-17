@@ -85,11 +85,12 @@
       (setq erlang-indent-level 4)
     (setq erlang-indent-level 2)))
 
-
 (defun my-cut-function (text &optional rest)
   (let ((process-connection-type nil))
-    (start-process "emacs_share_buffer.sh" "*Messages*" "emacs_share_buffer.sh" text)))
+    (start-process "pbcopy" "*Messages*" "pbcopy" text)
+    (start-process "tmux" "*Messages*" "/usr/local/bin/tmux" "set-buffer" text)))
 
+(setq large-file-warning-threshold 100000000)
 (setq interprogram-cut-function 'my-cut-function)
 (setq line-number-display-limit large-file-warning-threshold)
 (setq line-number-display-limit-width 200)
@@ -110,3 +111,22 @@
 
 (add-to-list 'magic-mode-alist (cons #'my--is-file-large #'my-large-file-mode))
 
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((dot . t)))
+
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (go-mode elixir-mode yafolding json-mode erlang docker-compose-mode dockerfile-mode org-alert org markdown-mode terraform-mode magit ir-black-theme))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

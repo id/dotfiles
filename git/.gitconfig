@@ -14,7 +14,8 @@
 	added = whatchanged --diff-filter=A --pretty=format:\"%h %ad | %s%d [%an]\" --date=short
 [color]
 	diff = auto
-	ui = 1
+	ui = auto
+	status = auto
 [rerere]
 	enabled = 1
 [core]
