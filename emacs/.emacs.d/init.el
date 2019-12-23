@@ -87,8 +87,10 @@
 
 (defun my-cut-function (text &optional rest)
   (let ((process-connection-type nil))
-    (start-process "pbcopy" "*Messages*" "pbcopy" text)
-    (start-process "tmux" "*Messages*" "/usr/local/bin/tmux" "set-buffer" text)))
+    (let ((proc (start-process "pbcopy" "*Messages*" "pbcopy")))
+      (process-send-string proc text)
+      (process-send-eof proc))
+    (let ((proc (start-process "tmux" "*Messages*" "/usr/local/bin/tmux" "set-buffer" text))))))
 
 (setq large-file-warning-threshold 100000000)
 (setq interprogram-cut-function 'my-cut-function)
