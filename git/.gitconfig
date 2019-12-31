@@ -1,13 +1,13 @@
 [user]
 	name = Ivan Dyachkov
-	email = ivan.dyachkov@klarna.com
+	email = dev@dyachkov.org
 
 [alias]
 	co = checkout
 	ci = commit
 	st = status
 	br = branch
-	hist = log --graph --date=short --all --decorate --oneline
+	hist = log --graph --date=short --decorate --oneline
 	l = log --pretty=format:\"%h %ad | %s%d [%an]\" --date=short
 	type = cat-file -t
 	dump = cat-file -p
