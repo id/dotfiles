@@ -33,6 +33,7 @@
 (global-set-key [?\M-n] 'scroll-up-line)
 
 (setq-default erlang-indent-level 2)
+(setq-default js-indent-level 2)
 (setq-default allout-layout t)
 
 (setq-default tab-width 2)
