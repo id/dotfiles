@@ -4,6 +4,7 @@ Stow will create corresponding symlinks in the parent directory. E.g if you put 
 Each package can (actually, must) be installed separately:
 stow emacs
 stow bash
+stow zsh
 stow tmux
 stow bin
 stow erlang
