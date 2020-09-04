@@ -1,6 +1,5 @@
-autoload -Uz compinit promptinit
-compinit
-promptinit
+autoload -Uz bashcompinit && bashcompinit
+autoload -Uz promptinit && promptinit
 
 if [ -f $(brew --prefix)/etc/bash_completion.d/git-prompt.sh ]; then
     export GIT_PS1_SHOWDIRTYSTATE=1
