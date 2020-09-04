@@ -2,14 +2,7 @@
 (setq whitespace-line-column 80)
 (setq-default show-trailing-whitespace t)
 (set-face-attribute 'trailing-whitespace nil :background "red1" :weight 'bold)
-(global-whitespace-mode 1)
 (menu-bar-mode -1)
-
-(defun highlight-tabs ()
-  "Highlight tab characters."
-  (font-lock-add-keywords
-   nil '(("\\(\t+\\)" 1 '(:background "#333333") t))))
-(add-hook 'erlang-mode-hook 'highlight-tabs)
 
 (column-number-mode 1)
 (global-linum-mode 1)
@@ -46,6 +39,8 @@
 (recentf-mode 1)
 (show-paren-mode 1)
 
+(setq auto-save-visited-mode t)
+
 (setq backup-directory-alist `(("." . "~/.emacs_saves")))
 (setq backup-by-copying t)
 (setq delete-old-versions t
@@ -76,16 +71,6 @@
 
 (put 'downcase-region 'disabled nil)
 
-(defun set-erlang-indent (level)
-  (interactive "nSet erlang indent level to: ")
-  (setq erlang-indent-level level))
-
-(defun switch-erlang-indent ()
-  (interactive)
-  (if (equal erlang-indent-level 2)
-      (setq erlang-indent-level 4)
-    (setq erlang-indent-level 2)))
-
 (defun my-cut-function (text &optional rest)
   (let ((process-connection-type nil))
     (let ((proc (start-process "pbcopy" "*Messages*" "pbcopy")))
@@ -97,6 +82,8 @@
 (setq interprogram-cut-function 'my-cut-function)
 (setq line-number-display-limit large-file-warning-threshold)
 (setq line-number-display-limit-width 200)
+
+(setq default-directory (concat (getenv "HOME") "/"))
 
 (defun my--is-file-large ()
   "If buffer too large and my cause performance issue."
@@ -113,20 +100,59 @@
   (set (make-variable-buffer-local 'column-number-mode) nil) )
 
 (add-to-list 'magic-mode-alist (cons #'my--is-file-large #'my-large-file-mode))
+(add-to-list 'tramp-default-proxies-alist
+             '(nil "\\`root\\'" "/ssh:%h:"))
+(add-to-list 'tramp-default-proxies-alist
+             '((regexp-quote (system-name)) nil nil))
+
+(require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
+
+(defun setup-tide-mode ()
+  (interactive)
+  (tide-setup)
+  (flycheck-mode +1)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (setq tide-node-executable "/usr/local/bin/node")
+  (eldoc-mode +1)
+  (tide-hl-identifier-mode +1)
+)
+
+(add-hook 'before-save-hook 'tide-format-before-save)
+
+(add-hook 'typescript-mode-hook #'setup-tide-mode)
+
+(defun my-web-mode-hook ()
+  "Hooks for Web mode."
+  (setq web-mode-markup-indent-offset 2)
+  (setq web-mode-css-indent-offset 2)
+  (setq web-mode-code-indent-offset 2)
+  (lambda ()
+    (when (string-equal "tsx" (file-name-extension buffer-file-name))
+      (setup-tide-mode))))
+
+(flycheck-add-mode 'typescript-tslint 'web-mode)
+
+(add-hook 'web-mode-hook  'my-web-mode-hook)
 
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((dot . t)))
-
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("25da85b0d62fd69b825e931e27079ceeb9fd041d14676337ea1ce1919ce4ab17" "9e39a8334e0e476157bfdb8e42e1cea43fad02c9ec7c0dbd5498cf02b9adeaf1" default))
+ '(markdown-command "/usr/local/bin/markdown")
  '(package-selected-packages
-   (quote
-    (go-mode elixir-mode yafolding json-mode erlang docker-compose-mode dockerfile-mode org-alert org markdown-mode terraform-mode magit ir-black-theme))))
+   '(atom-one-dark-theme web-mode tide yaml-mode typescript-mode scala-mode go-mode elixir-mode yafolding json-mode erlang docker-compose-mode dockerfile-mode org-alert org markdown-mode terraform-mode magit ir-black-theme))
+ '(typescript-indent-level 2))
+
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
