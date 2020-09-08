@@ -1,5 +1,9 @@
+autoload -Uz compinit && compinit
 autoload -Uz bashcompinit && bashcompinit
 autoload -Uz promptinit && promptinit
+
+fpath=( ~/.zsh_functions "${fpath[@]}" )
+autoload -U $fpath[1]/*(.:t)
 
 if [ -f $(brew --prefix)/etc/bash_completion.d/git-prompt.sh ]; then
     export GIT_PS1_SHOWDIRTYSTATE=1
