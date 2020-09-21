@@ -1,11 +1,7 @@
 (setq whitespace-style '(tabs trailing lines tab-mark))
-(setq-default show-trailing-whitespace t)
-(set-face-attribute 'trailing-whitespace nil :background "red1" :weight 'bold)
+;; (setq-default show-trailing-whitespace t)
+;; (set-face-attribute 'trailing-whitespace nil :background "red1" :weight 'bold)
 (menu-bar-mode -1)
-
-(column-number-mode 1)
-(global-linum-mode 1)
-(setq linum-format "%d ")
 
 (require 'package)
 (package-initialize)
@@ -104,6 +100,7 @@
              '((regexp-quote (system-name)) nil nil))
 
 (require 'web-mode)
+(require 'flycheck)
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
 
@@ -149,8 +146,22 @@
  '((dot . t)))
 
 (custom-set-variables
- '(custom-safe-themes)
- '(markdown-command "/usr/local/bin/markdown"))
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(column-number-mode t)
+ '(create-lockfiles nil)
+ '(custom-safe-themes nil)
+ '(display-line-numbers t)
+ '(global-hl-line-mode t)
+ '(global-so-long-mode t)
+ '(markdown-command "/usr/local/bin/markdown")
+ '(size-indication-mode t))
 
 (custom-set-faces
- )
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(hl-line ((t (:extend t :background "#151515" :underline nil)))))
