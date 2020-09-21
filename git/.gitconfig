@@ -8,7 +8,7 @@
 	st = status
 	br = branch
 	hist = log --graph --date=short --decorate --oneline
-	l = log --pretty=format:\"%h %ad | %s%d [%an]\" --date=short
+	l = log --decorate --pretty=format:\"%C(yellow)%h%C(reset) %Cgreen%ad%Creset | %s%Cred%d %Cgreen(%cr) - %C(bold)%an%Creset\" --date=short
 	type = cat-file -t
 	dump = cat-file -p
 	added = whatchanged --diff-filter=A --pretty=format:\"%h %ad | %s%d [%an]\" --date=short
@@ -22,6 +22,8 @@
 	abbrev = 8
 [push]
 	default = matching
+[pull]
+	rebase = false
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
