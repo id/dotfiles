@@ -4,7 +4,6 @@ zstyle ':completion:*' expand prefix suffix 
 zstyle :compinstall filename '/Users/ivand/.zshrc'
 
 autoload -Uz compinit && compinit
-autoload -Uz bashcompinit && bashcompinit
 autoload -Uz promptinit && promptinit
 autoload -U select-word-style && select-word-style bash
 autoload -U zmv
