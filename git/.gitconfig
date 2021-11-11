@@ -6,7 +6,8 @@
 	co = checkout
 	st = status
 	br = branch
-	l = log --all --decorate --pretty=format:\"%C(yellow)%h%C(reset) %Cgreen%ad%Creset | %s%Cred%d%Cgreen - %C(bold)%ae%Creset\" --date=human --graph
+	l = log --decorate --pretty=format:\"%C(yellow)%h%C(reset) %Cgreen%ad%Creset | %s%Cred%d%Cgreen - %C(bold)%ae%Creset\" --date=human --graph
+	ll = log --all --decorate --pretty=format:\"%C(yellow)%h%C(reset) %Cgreen%ad%Creset | %s%Cred%d%Cgreen - %C(bold)%ae%Creset\" --date=human --graph
 	type = cat-file -t
 	dump = cat-file -p
 	added = whatchanged --diff-filter=A --pretty=format:\"%h %ad | %s%d [%an]\" --date=short
