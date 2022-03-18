@@ -1,7 +1,9 @@
+fpath=( /opt/homebrew/share/zsh/site-functions /usr/share/zsh/site-functions /usr/share/zsh/5.8/functions )
+
 zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*'
 zstyle ':completion:*' list-suffixes
 zstyle ':completion:*' expand prefix suffix 
-zstyle :compinstall filename '/Users/ivand/.zshrc'
+zstyle :compinstall filename '.zshrc'
 
 autoload -Uz compinit && compinit
 autoload -Uz promptinit && promptinit
@@ -9,9 +11,6 @@ autoload -U select-word-style && select-word-style bash
 autoload -U zmv
 
 compdef -d ansible-vault
-
-fpath=( ~/.zsh_functions /usr/local/share/zsh-completions "${fpath[@]}" )
-autoload -U $fpath[1]/*(.:t)
 
 if [ -f /usr/local/etc/bash_completion.d/git-prompt.sh ]; then
     export GIT_PS1_SHOWDIRTYSTATE=1
