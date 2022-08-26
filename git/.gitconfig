@@ -1,6 +1,9 @@
+[include]
+    path = ~/.git-personal.conf
+[includeIf "gitdir:~/kry/"]
+    path = ~/.git-kry.conf
 [user]
 	name = Ivan Dyachkov
-	email = ivan.dyachkov@kry.se
 
 [alias]
 	co = checkout
