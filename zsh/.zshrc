@@ -1,4 +1,4 @@
-fpath=( /opt/homebrew/share/zsh/site-functions /usr/share/zsh/site-functions /usr/share/zsh/5.8/functions )
+fpath=( /opt/homebrew/share/zsh/site-functions /usr/share/zsh/site-functions /usr/share/zsh/5.8/functions ${ASDF_DIR}/completions $fpath)
 
 zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*'
 zstyle ':completion:*' list-suffixes
@@ -12,12 +12,12 @@ autoload -U zmv
 
 compdef -d ansible-vault
 
-if [ -f /usr/local/etc/bash_completion.d/git-prompt.sh ]; then
+if [ -f $(brew --prefix)/etc/bash_completion.d/git-prompt.sh ]; then
     export GIT_PS1_SHOWDIRTYSTATE=1
     export GIT_PS1_SHOWSTASHSTATE=1
     export GIT_PS1_SHOWUNTRACKEDFILES=1
     export GIT_PS1_SHOWUPSTREAM=verbose
-    source /usr/local/etc/bash_completion.d/git-prompt.sh
+    source $(brew --prefix)/etc/bash_completion.d/git-prompt.sh
     setopt PROMPT_SUBST ; PS1=$'[\e[32m%n\e[1m@\e[32m%m\e[31m$(__git_ps1 " (%s)") \e[33m%1~\e[0m]\n'
 fi
 
@@ -38,3 +38,5 @@ setopt HIST_IGNORE_SPACE         # Do not record an event starting with a space.
 setopt HIST_VERIFY               # Do not execute immediately upon history expansion.
 setopt APPEND_HISTORY            # append to history file
 setopt HIST_NO_STORE             # Don't store history commands
+. ~/.asdf/asdf.sh
+
