@@ -5,7 +5,7 @@
 
 (require 'package)
 (add-to-list 'package-archives
-             '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+             '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
 
 (load-theme 'ir-black t)
@@ -75,7 +75,7 @@
     (let ((proc (start-process "pbcopy" "*Messages*" "pbcopy")))
       (process-send-string proc text)
       (process-send-eof proc))
-    (let ((proc (start-process "tmux" "*Messages*" "/usr/local/bin/tmux" "set-buffer" text))))))
+    (let ((proc (start-process "tmux" "*Messages*" "/opt/homebrew/bin/tmux" "set-buffer" text))))))
 
 (setq large-file-warning-threshold 100000000)
 (setq interprogram-cut-function 'my-cut-function)
@@ -123,6 +123,8 @@
                             (setq c-basic-offset 2)))
 
 (display-line-numbers-mode)
+(setq plantuml-executable-path "/opt/homebrew/bin/plantuml")
+(setq plantuml-default-exec-mode 'executable)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -135,7 +137,9 @@
  '(display-line-numbers t)
  '(global-hl-line-mode t)
  '(global-so-long-mode t)
- '(markdown-command "/usr/local/bin/markdown")
+ '(markdown-command "/opt/homebrew/bin/markdown")
+ '(package-selected-packages
+   '(dockerfile-mode terraform-mode plantuml-mode rego-mode yaml-mode markdown-preview-mode markdown-mode magit web-mode ir-black-theme))
  '(size-indication-mode t))
 
 (custom-set-faces
