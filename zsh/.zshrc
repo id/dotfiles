@@ -38,5 +38,11 @@ setopt HIST_IGNORE_SPACE         # Do not record an event starting with a space.
 setopt HIST_VERIFY               # Do not execute immediately upon history expansion.
 setopt APPEND_HISTORY            # append to history file
 setopt HIST_NO_STORE             # Don't store history commands
+aws-unset() {
+    unset AWS_PROFILE
+    unset AWS_ACCESS_KEY_ID
+    unset AWS_SECRET_ACCESS_KEY
+    unset AWS_SESSION_TOKEN
+}
 . ~/.asdf/asdf.sh
 
