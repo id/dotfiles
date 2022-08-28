@@ -44,5 +44,4 @@ aws-unset() {
     unset AWS_SECRET_ACCESS_KEY
     unset AWS_SESSION_TOKEN
 }
-. ~/.asdf/asdf.sh
 
