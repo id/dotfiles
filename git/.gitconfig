@@ -1,7 +1,7 @@
 [include]
-    path = ~/.git-personal.conf
-[includeIf "gitdir:~/kry/"]
-    path = ~/.git-kry.conf
+  path = ~/.git-personal.conf
+[includeIf "gitdir:~/work/"]
+  path = ~/.git-work.conf
 [user]
 	name = Ivan Dyachkov
 
