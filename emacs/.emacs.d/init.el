@@ -8,6 +8,12 @@
              '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
 
+(setq package-list '(dockerfile-mode ir-black-theme magit markdown-mode plantuml-mode terraform-mode yaml-mode))
+
+(dolist (package package-list)
+  (unless (package-installed-p package)
+    (package-install package)))
+
 (load-theme 'ir-black t)
 
 (setq scroll-conservatively most-positive-fixnum)
