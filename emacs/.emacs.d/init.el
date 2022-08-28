@@ -100,25 +100,6 @@
 
 (add-to-list 'magic-mode-alist (cons #'my--is-file-large #'my-large-file-mode))
 
-(require 'web-mode)
-(add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
-
-(defun my-web-mode-hook ()
-  "Hooks for Web mode."
-  (setq web-mode-markup-indent-offset 2)
-  (setq web-mode-css-indent-offset 2)
-  (setq web-mode-code-indent-offset 2)
-)
-
-(add-hook 'web-mode-hook 'my-web-mode-hook)
-(add-hook 'js2-mode-hook #'setup-tide-mode)
-(add-hook 'typescript-mode-hook #'setup-tide-mode)
-
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((dot . t)))
-
 (add-hook 'java-mode-hook (lambda ()
                             (setq c-basic-offset 2)))
 
