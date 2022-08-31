@@ -1,8 +1,3 @@
-(setq whitespace-style '(tabs trailing lines tab-mark))
-;; (setq-default show-trailing-whitespace t)
-;; (set-face-attribute 'trailing-whitespace nil :background "red1" :weight 'bold)
-(menu-bar-mode -1)
-
 (require 'package)
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/") t)
@@ -33,6 +28,11 @@
 
 (setq-default tab-width 2)
 (setq-default indent-tabs-mode nil)
+
+(setq whitespace-style '(tabs trailing lines tab-mark))
+;; (setq-default show-trailing-whitespace t)
+;; (set-face-attribute 'trailing-whitespace nil :background "red1" :weight 'bold)
+(menu-bar-mode -1)
 
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
@@ -71,7 +71,7 @@
 
 (global-set-key (kbd "C-x g") 'magit-status)
 (add-hook 'magit-log-edit-mode-hook
-          '(lambda ()
+          (lambda ()
              (shell-command "./.git/hooks/prepare-commit-msg")))
 
 (put 'downcase-region 'disabled nil)
@@ -106,9 +106,6 @@
 
 (add-to-list 'magic-mode-alist (cons #'my--is-file-large #'my-large-file-mode))
 
-(add-hook 'java-mode-hook (lambda ()
-                            (setq c-basic-offset 2)))
-
 (display-line-numbers-mode)
 (setq plantuml-executable-path "/opt/homebrew/bin/plantuml")
 (setq plantuml-default-exec-mode 'executable)
@@ -125,8 +122,6 @@
  '(global-hl-line-mode t)
  '(global-so-long-mode t)
  '(markdown-command "/opt/homebrew/bin/markdown")
- '(package-selected-packages
-   '(dockerfile-mode terraform-mode plantuml-mode rego-mode yaml-mode markdown-preview-mode markdown-mode magit web-mode ir-black-theme))
  '(size-indication-mode t))
 
 (custom-set-faces
