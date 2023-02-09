@@ -1,6 +1,8 @@
 [include]
   path = ~/.git-personal.conf
-[includeIf "gitdir:~/work/"]
+[includeIf "hasconfig:remote.*.url:https://github.com/emqx/*"]
+  path = ~/.git-work.conf
+[includeIf "hasconfig:remote.*.url:git@github.com:emqx/*"]
   path = ~/.git-work.conf
 [user]
 	name = Ivan Dyachkov
@@ -15,6 +17,7 @@
 	type = cat-file -t
 	dump = cat-file -p
 	added = whatchanged --diff-filter=A --pretty=format:\"%h %ad | %s%d [%an]\" --date=short
+  uncommit = reset --soft HEAD^
 [color]
 	diff = auto
 	ui = auto
@@ -36,3 +39,7 @@
 	defaultBranch = master
 [diff]
   colorMoved = true
+[commit]
+	template = /Users/id/.gitcommitmsg.txt
+[credential]
+	helper = store
