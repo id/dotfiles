@@ -21,7 +21,7 @@
 (global-set-key [?\M-n] 'scroll-up-line)
 
 (setq-default display-line-numbers t)
-(setq-default erlang-indent-level 2)
+(setq-default erlang-indent-level 4)
 (setq-default js-indent-level 2)
 (setq-default typescript-indent-level 2)
 (setq-default allout-layout t)
@@ -39,19 +39,28 @@
 (prefer-coding-system 'utf-8)
 
 (recentf-mode 1)
+(setq show-paren-delay 0)
 (show-paren-mode 1)
+
+(setq inhibit-splash-screen t)
+(setq initial-scratch-message "")
 
 ; https://www.gnu.org/software/emacs/manual/html_node/emacs/Auto-Save-Control.html
 (setq-default auto-save-default nil)
 (setq-default auto-save-visited-mode t)
 (setq-default auto-save-visited-file-name nil)
 
-(setq backup-directory-alist `(("." . "~/.emacs_saves")))
-(setq backup-by-copying t)
-(setq delete-old-versions t
-  kept-new-versions 6
-  kept-old-versions 2
-  version-control t)
+(setq make-backup-files nil)
+
+(setq require-final-newline t)
+(setq vc-follow-symlinks t)
+
+;; (setq backup-directory-alist `(("." . "~/.emacs_saves")))
+;; (setq backup-by-copying t)
+;; (setq delete-old-versions t
+;;   kept-new-versions 6
+;;   kept-old-versions 2
+;;   version-control t)
 
 (require 'ido)
 (ido-mode t)
@@ -110,6 +119,13 @@
 (setq plantuml-executable-path "/opt/homebrew/bin/plantuml")
 (setq plantuml-default-exec-mode 'executable)
 
+(prefer-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(setq default-buffer-file-coding-system 'utf-8)
+(set-locale-environment "en_US.UTF-8")
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -121,7 +137,10 @@
  '(display-line-numbers t)
  '(global-hl-line-mode t)
  '(global-so-long-mode t)
- '(markdown-command "/opt/homebrew/bin/markdown")
+ '(markdown-command "/opt/homebrew/bin/pandoc")
+ '(package-selected-packages
+   '(elixir-mode rust-mode cmake-mode powershell yaml-mode terraform-mode plantuml-mode markdown-mode magit ir-black-theme dockerfile-mode))
+ '(safe-local-variable-values '((c-indent-level . 2) (allout-layout . t)))
  '(size-indication-mode t))
 
 (custom-set-faces
