@@ -6,20 +6,27 @@ zstyle ':completion:*' expand prefix suffix
 [ -f /opt/homebrew/etc/bash_completion.d/git-completion.bash ] && zstyle ':completion:*:*:git:*' script /opt/homebrew/etc/bash_completion.d/git-completion.bash
 zstyle :compinstall filename '.zshrc'
 
+unalias run-help 2>/dev/null
+alias help=run-help
+
+autoload -Uz run-help
+autoload -Uz run-help-git
 autoload -Uz compinit && compinit
-autoload -Uz promptinit && promptinit
 autoload -U select-word-style && select-word-style bash
 autoload -U zmv
 
 compdef -d ansible-vault
 
+setopt PROMPT_SUBST ;
 if [ -f /opt/homebrew/etc/bash_completion.d/git-prompt.sh ]; then
     export GIT_PS1_SHOWDIRTYSTATE=1
     export GIT_PS1_SHOWSTASHSTATE=1
     export GIT_PS1_SHOWUNTRACKEDFILES=1
     export GIT_PS1_SHOWUPSTREAM=verbose
     source /opt/homebrew/etc/bash_completion.d/git-prompt.sh
-    setopt PROMPT_SUBST ; PS1=$'[\e[32m%n\e[1m@\e[32m%m\e[31m$(__git_ps1 " (%s)") \e[33m%1~\e[0m]\n'
+    PS1=$'\e[37m%D %* \e[32m%n@%m\e[1m\e[31m$(__git_ps1 " (%s)") \e[33m%2~\e[0m\n'
+else
+    PS1=$'\e[37m%D %* \e[32m%n@%m\e[1m\e[31m \e[33m%2~\e[0m\n'
 fi
 
 alias e='emacsclient -t'
@@ -31,9 +38,11 @@ alias erlgrep="find . -name '*.erl' | xargs grep --color=always -n"
 alias alias br='git rev-parse --symbolic-full-name --abbrev-ref HEAD | tr -d "\n"'
 alias gfa='git fetch --all --prune'
 alias gfu='git fetch upstream --prune'
-alias gru='git rebase upstream/master'
+alias grum='git rebase upstream/master'
 alias gpom='git push origin master:master'
 alias delete-merged="git branch --merged | grep -Ev 'master|main|release' | grep -v '*' | xargs git branch --delete"
+
+setopt AUTO_CD
 
 setopt EXTENDED_HISTORY          # Write the history file in the ':start:elapsed;command' format.
 setopt INC_APPEND_HISTORY        # Write to the history file immediately, not when the shell exits.
@@ -58,7 +67,6 @@ function gg() {
     find . -name "*.${1}" | xargs grep --color=always "${2}"
 }
 
-
 aws-unset() {
     unset AWS_PROFILE
     unset AWS_ACCESS_KEY_ID
@@ -67,17 +75,15 @@ aws-unset() {
 }
 
 function brew-unset() {
-    unset HOMEBREW_NO_AUTO_UPDATE
     unset HOMEBREW_NO_INSTALL_CLEANUP
     unset HOMEBREW_NO_INSTALL_UPGRADE
-    unset HOMEBREW_NO_ANALYTICS
-    unset HOMEBREW_AUTO_UPDATE_SECS
+    unset HOMEBREW_NO_GOOGLE_ANALYTICS
     unset HOMEBREW_CLEANUP_MAX_AGE_DAYS
-    unset HOMEBREW_INSTALL_FROM_API
     unset HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK
     unset HOMEBREW_NO_GITHUB_API
 }
 
-[ -f '/opt/homebrew/opt/asdf/libexec/asdf.sh' ] && source '/opt/homebrew/opt/asdf/libexec/asdf.sh'
 [ -f '/opt/gcloud/google-cloud-sdk/path.zsh.inc' ] && source '/opt/gcloud/google-cloud-sdk/path.zsh.inc'
 [ -f '/opt/gcloud/google-cloud-sdk/completion.zsh.inc' ] && source '/opt/gcloud/google-cloud-sdk/completion.zsh.inc'
+[ -f '/opt/homebrew/opt/asdf/libexec/asdf.sh' ] && source '/opt/homebrew/opt/asdf/libexec/asdf.sh'
+[ -f ~/.openai ] && source ~/.openai

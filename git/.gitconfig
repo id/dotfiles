@@ -43,3 +43,5 @@
 	template = /Users/id/.gitcommitmsg.txt
 [credential]
 	helper = store
+[help]
+  autocorrect = 1
