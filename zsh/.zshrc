@@ -14,6 +14,9 @@ autoload -Uz run-help-git
 autoload -Uz compinit && compinit
 autoload -U select-word-style && select-word-style bash
 autoload -U zmv
+autoload -z edit-command-line
+zle -N edit-command-line
+bindkey "^X^E" edit-command-line
 
 compdef -d ansible-vault
 
@@ -32,15 +35,32 @@ fi
 alias e='emacsclient -t'
 alias ls='ls -G'
 alias ll='ls -alhG'
+alias g='grep --color=never'
 alias grep='grep --color=always'
 alias grepn='grep --color=always -n'
 alias erlgrep="find . -name '*.erl' | xargs grep --color=always -n"
-alias alias br='git rev-parse --symbolic-full-name --abbrev-ref HEAD | tr -d "\n"'
-alias gfa='git fetch --all --prune'
-alias gfu='git fetch upstream --prune'
+alias br='git rev-parse --symbolic-full-name --abbrev-ref HEAD | tr -d "\n"'
+alias gfa='git fetch --all --tags --prune'
+alias gfu='git fetch upstream --tags --prune'
+alias gfo='git fetch origin --tags --prune'
 alias grum='git rebase upstream/master'
 alias gpom='git push origin master:master'
-alias delete-merged="git branch --merged | grep -Ev 'master|main|release' | grep -v '*' | xargs git branch --delete"
+alias delete-merged="git branch --merged | /usr/bin/grep -Ev 'master|main' | /usr/bin/grep -v '*' | xargs git branch --delete" # 
+alias tf=terraform
+alias ssh0='ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
+alias rsync0="rsync -e 'ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'"
+alias myip='curl -sS ifconfig.me'
+alias myip2='curl -sS ipinfo.io/ip'
+alias myip3='curl -sS https://am.i.mullvad.net/'
+alias myip4='dig -4 TXT +short o-o.myaddr.l.google.com @ns1.google.com | tr -d \"'
+alias myip5='curl wasab.is'
+alias myip6='curl -sL ip.guide | jq -r .ip'
+alias ipinfo='curl -sL ipinfo.io'
+alias ipinfo2='curl -sL ip.guide'
+alias ipinfo3='curl -sS https://am.i.mullvad.net/json | jq .'
+alias myasn='whois -h bgp.tools " -v $(curl -s ifconfig.me)"'
+alias myasn2='echo $(curl -sS ifconfig.me) | nc bgp.tools 43'
+alias asn='whois -h bgp.tools " -v $*"'
 
 setopt AUTO_CD
 
@@ -55,6 +75,8 @@ setopt HIST_VERIFY               # Do not execute immediately upon history expan
 setopt APPEND_HISTORY            # append to history file
 setopt HIST_NO_STORE             # Don't store history commands
 
+ulimit -n 10240
+
 function kerl-activate() {
     source $HOME/.kerl/installations/$1/activate
 }
@@ -67,6 +89,30 @@ function gg() {
     find . -name "*.${1}" | xargs grep --color=always "${2}"
 }
 
+function run-builder () {
+    cat <<EOF > /tmp/gitconfig
+[safe]
+  directory = /w
+EOF
+    docker run -it --rm -v $PWD:/w -w /w -v /tmp/gitconfig:/root/.gitconfig ghcr.io/emqx/emqx-builder/5.1-4:1.14.5-25.3.2-2-${1:-ubuntu22.04}
+}
+
+function run-builder-amd64 () {
+    cat <<EOF > /tmp/gitconfig
+[safe]
+  directory = /w
+EOF
+    docker run -it --rm --platform linux/amd64 -v $PWD:/w -w /w -v /tmp/gitconfig:/root/.gitconfig ghcr.io/emqx/emqx-builder/5.1-3:1.14.5-25.3.2-1-${1:-ubuntu22.04}
+}
+
+function emqx-token() {
+    curl --silent -X 'POST' "http://${1:-127.0.0.1}:18083/api/v5/login" -H 'accept: application/json' -H 'Content-Type: application/json' -d '{"username": "admin","password": "public"}' | jq -r ".token"
+}
+
+function emqx-curl() {
+    curl -s -H "Authorization: Bearer $TOKEN" -X GET "http://${1:-127.0.0.1}:18083/api/v5/$2" | jq .
+}
+
 aws-unset() {
     unset AWS_PROFILE
     unset AWS_ACCESS_KEY_ID
@@ -74,15 +120,8 @@ aws-unset() {
     unset AWS_SESSION_TOKEN
 }
 
-function brew-unset() {
-    unset HOMEBREW_NO_INSTALL_CLEANUP
-    unset HOMEBREW_NO_INSTALL_UPGRADE
-    unset HOMEBREW_NO_GOOGLE_ANALYTICS
-    unset HOMEBREW_CLEANUP_MAX_AGE_DAYS
-    unset HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK
-    unset HOMEBREW_NO_GITHUB_API
-}
-
+eval "$(/opt/homebrew/bin/brew shellenv)"
+eval "$(rbenv init - zsh)"
 [ -f '/opt/gcloud/google-cloud-sdk/path.zsh.inc' ] && source '/opt/gcloud/google-cloud-sdk/path.zsh.inc'
 [ -f '/opt/gcloud/google-cloud-sdk/completion.zsh.inc' ] && source '/opt/gcloud/google-cloud-sdk/completion.zsh.inc'
 [ -f '/opt/homebrew/opt/asdf/libexec/asdf.sh' ] && source '/opt/homebrew/opt/asdf/libexec/asdf.sh'
