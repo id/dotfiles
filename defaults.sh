@@ -41,10 +41,10 @@ defaults write com.apple.dock mru-spaces -bool false
 defaults write com.apple.dock dashboard-in-overlay -bool true
 
 # System Preferences > Keyboard >
-defaults write NSGlobalDomain KeyRepeat -int 1
+defaults write NSGlobalDomain KeyRepeat -int 2
 
 # System Preferences > Keyboard >
-defaults write NSGlobalDomain InitialKeyRepeat -int 10
+defaults write NSGlobalDomain InitialKeyRepeat -int 15
 
 # System Preferences > Trackpad > Tap to click
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
