@@ -134,13 +134,15 @@
  '(column-number-mode t)
  '(create-lockfiles nil)
  '(custom-safe-themes
-   '("88cb0f9c0c11dbb4c26a628d35eb9239d1cf580cfd28e332e654e7f58b4e721b" "611ef0918b8b413badb8055089b5499c1d4ac20f1861efba8f3bfcb36ad0a448" "15604b083d03519b0c2ed7b32da6d7b2dc2f6630bef62608def60cdcf9216184" "69f7e8101867cfac410e88140f8c51b4433b93680901bb0b52014144366a08c8" "38f04d6cff372da39a8d0451a4903681e52a5a9702f37021cf1d3d246f0b37c6" "f5e666fba0ded6ae9be004314ecf5f7feb605cdb84711b5c5ffd81acfb831183"))
+   '("fee7287586b17efbfda432f05539b58e86e059e78006ce9237b8732fde991b4c" "524fa911b70d6b94d71585c9f0c5966fe85fb3a9ddd635362bfabd1a7981a307" "1c9ba588b7dedc017c5ee7fab0b9c74595a622d94298d9b79633a55091bed503" "88cb0f9c0c11dbb4c26a628d35eb9239d1cf580cfd28e332e654e7f58b4e721b" "611ef0918b8b413badb8055089b5499c1d4ac20f1861efba8f3bfcb36ad0a448" "15604b083d03519b0c2ed7b32da6d7b2dc2f6630bef62608def60cdcf9216184" "69f7e8101867cfac410e88140f8c51b4433b93680901bb0b52014144366a08c8" "38f04d6cff372da39a8d0451a4903681e52a5a9702f37021cf1d3d246f0b37c6" "f5e666fba0ded6ae9be004314ecf5f7feb605cdb84711b5c5ffd81acfb831183"))
  '(display-line-numbers t)
  '(global-hl-line-mode t)
  '(global-so-long-mode t)
  '(markdown-command "/opt/homebrew/bin/pandoc")
  '(package-selected-packages
    '(jinja2-mode go-mode yaml-mode typescript-mode terraform-mode s rust-mode powershell plantuml-mode modus-themes markdown-mode magit ir-black-theme fill-column-indicator elixir-mode eglot editorconfig dockerfile-mode cmake-mode catppuccin-theme))
+ '(plantuml-jar-path
+   "/opt/homebrew/Cellar/plantuml/1.2023.12/libexec/plantuml.jar")
  '(safe-local-variable-values
    '((standard-indent . 2)
      (encoding . utf-8)

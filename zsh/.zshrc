@@ -55,8 +55,8 @@ alias myip3='curl -sS https://am.i.mullvad.net/'
 alias myip4='dig -4 TXT +short o-o.myaddr.l.google.com @ns1.google.com | tr -d \"'
 alias myip5='curl wasab.is'
 alias myip6='curl -sL ip.guide | jq -r .ip'
-alias ipinfo='curl -sL ipinfo.io'
-alias ipinfo2='curl -sL ip.guide'
+alias ipinfo='curl -sL ip.guide'
+alias ipinfo2='curl -sL ipinfo.io'
 alias ipinfo3='curl -sS https://am.i.mullvad.net/json | jq .'
 alias myasn='whois -h bgp.tools " -v $(curl -s ifconfig.me)"'
 alias myasn2='echo $(curl -sS ifconfig.me) | nc bgp.tools 43'
@@ -110,7 +110,7 @@ function emqx-token() {
 }
 
 function emqx-curl() {
-    curl -s -H "Authorization: Bearer $TOKEN" -X GET "http://${1:-127.0.0.1}:18083/api/v5/$2" | jq .
+    curl -s -H "Authorization: Bearer $TOKEN" -X GET "http://${2:-127.0.0.1}:18083/api/v5/$1" | jq .
 }
 
 aws-unset() {
@@ -122,7 +122,10 @@ aws-unset() {
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
 eval "$(rbenv init - zsh)"
-[ -f '/opt/gcloud/google-cloud-sdk/path.zsh.inc' ] && source '/opt/gcloud/google-cloud-sdk/path.zsh.inc'
-[ -f '/opt/gcloud/google-cloud-sdk/completion.zsh.inc' ] && source '/opt/gcloud/google-cloud-sdk/completion.zsh.inc'
-[ -f '/opt/homebrew/opt/asdf/libexec/asdf.sh' ] && source '/opt/homebrew/opt/asdf/libexec/asdf.sh'
+[ -f /opt/gcloud/google-cloud-sdk/path.zsh.inc ] && source /opt/gcloud/google-cloud-sdk/path.zsh.inc
+[ -f /opt/gcloud/google-cloud-sdk/completion.zsh.inc ] && source /opt/gcloud/google-cloud-sdk/completion.zsh.inc
+[ -f /opt/homebrew/opt/asdf/libexec/asdf.sh ] && source /opt/homebrew/opt/asdf/libexec/asdf.sh
 [ -f ~/.openai ] && source ~/.openai
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+path+=('/opt/homebrew/opt/util-linux/bin')
+export PATH
