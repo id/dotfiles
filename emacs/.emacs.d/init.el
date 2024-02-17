@@ -3,7 +3,7 @@
              '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
 
-(setq package-list '(dockerfile-mode catppuccin-theme magit markdown-mode plantuml-mode terraform-mode yaml-mode))
+(setq package-list '(dockerfile-mode catppuccin-theme magit markdown-mode plantuml-mode terraform-mode yaml-mode hcl-mode))
 
 (dolist (package package-list)
   (unless (package-installed-p package)
@@ -29,8 +29,9 @@
 	 ("\\Emakefile" . erlang-mode)))
 
 (add-hook 'erlang-mode-hook 'eglot-ensure)
+(add-to-list 'auto-mode-alist '("\\.hocon$" . hcl-mode))
 
-(setq load-path (cons  "/Users/id/code/copilot.el" load-path))
+(setq load-path (cons  "~/code/copilot.el" load-path))
 (require 'copilot)
 (add-hook 'prog-mode-hook 'copilot-mode)
 (add-hook 'git-commit-mode-hook 'copilot-mode)
