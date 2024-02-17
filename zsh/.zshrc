@@ -120,12 +120,18 @@ aws-unset() {
     unset AWS_SESSION_TOKEN
 }
 
-eval "$(/opt/homebrew/bin/brew shellenv)"
-eval "$(rbenv init - zsh)"
+jwtd() {
+    cut -d '.' -f ${1:-1} | base64 -d
+}
+
+[ command -v /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
+[ command -v rbenv ] && eval "$(rbenv init - zsh)"
 [ -f /opt/gcloud/google-cloud-sdk/path.zsh.inc ] && source /opt/gcloud/google-cloud-sdk/path.zsh.inc
 [ -f /opt/gcloud/google-cloud-sdk/completion.zsh.inc ] && source /opt/gcloud/google-cloud-sdk/completion.zsh.inc
 [ -f /opt/homebrew/opt/asdf/libexec/asdf.sh ] && source /opt/homebrew/opt/asdf/libexec/asdf.sh
 [ -f ~/.openai ] && source ~/.openai
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-path+=('/opt/homebrew/opt/util-linux/bin')
+[ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
+[ -d /opt/homebrew/opt/util-linux/bin ] && path+=('/opt/homebrew/opt/util-linux/bin')
+[ -d "$HOME/.cargo/bin" ] && path+=("$HOME/.cargo/bin")
 export PATH
