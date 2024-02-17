@@ -11,12 +11,13 @@
 	co = checkout
 	st = status
 	br = branch
-	l = log --decorate --pretty=format:\"%C(yellow)%h%C(reset) %Cgreen%ad%Creset | %s%Cred%d%Cgreen - %C(bold)%ae%Creset\" --date=human --graph
-	ll = log --all --decorate --pretty=format:\"%C(yellow)%h%C(reset) %Cgreen%ad%Creset | %s%Cred%d%Cgreen - %C(bold)%ae%Creset\" --date=human --graph
-	ls = log --all --decorate --pretty=format:\"%C(yellow)%h%C(reset) %Cgreen%ad%Creset | %s%Cred%d%Cgreen - %C(bold)%ae%Creset\" --date=human --graph -10
+  l = log --all --decorate --graph --abbrev-commit --date=relative --format=format:'%C(auto)%h%C(reset) - %C(green)(%ar)%C(reset) %s %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'
+  ll = log --all --decorate --graph --abbrev-commit --format=format:'%C(auto)%h%C(reset) - %C(green)(%ad)%C(reset) %s %C(dim white)- %an <%ae>%C(reset)%C(auto)%d%C(reset)'
+  lg = log --decorate --abbrev-commit --format=format:'%C(yellow)%h%C(reset) - %C(green)(%ad)%C(reset) %s %C(dim white)- %an <%ae>%C(reset)%C(auto)%d%C(reset)'
+  ls = ls-files
 	type = cat-file -t
 	dump = cat-file -p
-	added = whatchanged --diff-filter=A --pretty=format:\"%h %ad | %s%d [%an]\" --date=short
+	added = whatchanged --diff-filter=A --format=format:'%h %ad | %s%d [%an]'
   uncommit = reset --soft HEAD^
 [color]
 	diff = auto
@@ -31,6 +32,7 @@
 	default = matching
 [pull]
 	rebase = false
+	ff = only
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
@@ -40,6 +42,7 @@
 	defaultBranch = master
 [diff]
   colorMoved = true
+	algorithm = histogram
 [commit]
 	template = ~/.gitcommitmsg.txt
 [credential]
@@ -51,3 +54,13 @@
   show-merge = "!sh -c 'merge=$(git find-merge $0 $1) && [ -n \"$merge\" ] && git show $merge'"
 [branch]
 	sort = -committerdate
+[tag]
+	sort = -version:refname
+[merge]
+	conflictstyle = diff3
+[rebase]
+	autosquash = true
+[fetch]
+	prune = true
+[log]
+	date = iso
