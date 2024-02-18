@@ -124,8 +124,8 @@ jwtd() {
     cut -d '.' -f ${1:-1} | base64 -d
 }
 
-[ command -v /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
-[ command -v rbenv ] && eval "$(rbenv init - zsh)"
+if command -v /opt/homebrew/bin/brew >/dev/null 2&>1; then eval "$(/opt/homebrew/bin/brew shellenv)"; fi
+if command -v rbenv >/dev/null 2&>1; then eval "$(rbenv init - zsh)"; fi
 [ -f /opt/gcloud/google-cloud-sdk/path.zsh.inc ] && source /opt/gcloud/google-cloud-sdk/path.zsh.inc
 [ -f /opt/gcloud/google-cloud-sdk/completion.zsh.inc ] && source /opt/gcloud/google-cloud-sdk/completion.zsh.inc
 [ -f /opt/homebrew/opt/asdf/libexec/asdf.sh ] && source /opt/homebrew/opt/asdf/libexec/asdf.sh
