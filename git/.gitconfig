@@ -19,6 +19,9 @@
 	dump = cat-file -p
 	added = whatchanged --diff-filter=A --format=format:'%h %ad | %s%d [%an]'
   uncommit = reset --soft HEAD^
+  fa = fetch --all --tags --prune
+  fo = fetch origin --tags --prune
+  fu = fetch upstream --tags --prune
 [color]
 	diff = auto
 	ui = auto
@@ -52,6 +55,9 @@
 [alias]
   find-merge = "!sh -c 'commit=$0 && branch=${1:-HEAD} && (git rev-list $commit..$branch --ancestry-path | cat -n; git rev-list $commit..$branch --first-parent | cat -n) | sort -k2 -s | uniq -f1 -d | sort -n | tail -1 | cut -f2'"
   show-merge = "!sh -c 'merge=$(git find-merge $0 $1) && [ -n \"$merge\" ] && git show $merge'"
+  contains="!sh -c 'git branch $(git symbolic-ref --short HEAD) --contains $1'"
+  new="!sh -c 'git checkout -b $0 && git push -u ${1:-origin} $0:$0'"
+  delr="!sh -c 'git push ${1:-origin} :$0'"
 [branch]
 	sort = -committerdate
 [tag]

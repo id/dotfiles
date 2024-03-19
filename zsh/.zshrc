@@ -40,12 +40,9 @@ alias grep='grep --color=always'
 alias grepn='grep --color=always -n'
 alias erlgrep="find . -name '*.erl' | xargs grep --color=always -n"
 alias br='git rev-parse --symbolic-full-name --abbrev-ref HEAD | tr -d "\n"'
-alias gfa='git fetch --all --tags --prune'
-alias gfu='git fetch upstream --tags --prune'
-alias gfo='git fetch origin --tags --prune'
 alias grum='git rebase upstream/master'
 alias gpom='git push origin master:master'
-alias delete-merged="git branch --merged | /usr/bin/grep -Ev 'master|main' | /usr/bin/grep -v '*' | xargs git branch --delete" # 
+alias delete-merged="git branch --merged | /usr/bin/grep -Ev 'master|main' | /usr/bin/grep -v '*' | xargs git branch --delete" #
 alias tf=terraform
 alias ssh0='ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
 alias rsync0="rsync -e 'ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'"
@@ -55,9 +52,9 @@ alias myip3='curl -sS https://am.i.mullvad.net/'
 alias myip4='dig -4 TXT +short o-o.myaddr.l.google.com @ns1.google.com | tr -d \"'
 alias myip5='curl wasab.is'
 alias myip6='curl -sL ip.guide | jq -r .ip'
-alias ipinfo='curl -sL ip.guide'
-alias ipinfo2='curl -sL ipinfo.io'
-alias ipinfo3='curl -sS https://am.i.mullvad.net/json | jq .'
+alias myipinfo='curl -sL ip.guide'
+alias myipinfo2='curl -sL ipinfo.io'
+alias myipinfo3='curl -sS https://am.i.mullvad.net/json | jq .'
 alias myasn='whois -h bgp.tools " -v $(curl -s ifconfig.me)"'
 alias myasn2='echo $(curl -sS ifconfig.me) | nc bgp.tools 43'
 alias asn='whois -h bgp.tools " -v $*"'
@@ -89,12 +86,12 @@ function gg() {
     find . -name "*.${1}" | xargs grep --color=always "${2}"
 }
 
-function run-builder () {
+function drvw () {
     cat <<EOF > /tmp/gitconfig
 [safe]
   directory = /w
 EOF
-    docker run -it --rm -v $PWD:/w -w /w -v /tmp/gitconfig:/root/.gitconfig ghcr.io/emqx/emqx-builder/5.1-4:1.14.5-25.3.2-2-${1:-ubuntu22.04}
+    docker run -it --rm -v $PWD:/w -w /w -v /tmp/gitconfig:/root/.gitconfig $1
 }
 
 function run-builder-amd64 () {
@@ -113,19 +110,52 @@ function emqx-curl() {
     curl -s -H "Authorization: Bearer $TOKEN" -X GET "http://${2:-127.0.0.1}:18083/api/v5/$1" | jq .
 }
 
-aws-unset() {
+function aws-unset() {
     unset AWS_PROFILE
     unset AWS_ACCESS_KEY_ID
     unset AWS_SECRET_ACCESS_KEY
     unset AWS_SESSION_TOKEN
 }
 
-jwtd() {
-    cut -d '.' -f ${1:-1} | base64 -d
+function jwtd() {
+    jq -R 'split(".") |.[0:2] | map(@base64d) | map(fromjson)'
+}
+
+function bm-start() {
+    n=${1:-1}
+    ansible emqtt_bench -m command -a 'systemctl start emqtt-bench' --become -l $(terraform output -json emqtt_bench_nodes | jq -r ".[$((n-1))].fqdn")
+}
+
+function bm-stop () {
+    n=${1:-1}
+    ansible emqtt_bench -m command -a 'systemctl stop emqtt-bench' --become -l $(terraform output -json emqtt_bench_nodes | jq -r ".[$((n-1))].fqdn")
+}
+
+function bmb-start() {
+    n=${1:-1}
+    ansible emqttb -m command -a 'systemctl start emqttb' --become -l $(terraform output -json emqttb_nodes | jq -r ".[$((n-1))].fqdn")
+}
+
+function bmb-stop() {
+    n=${1:-1}
+    ansible emqttb -m command -a 'systemctl stop emqttb' --become -l $(terraform output -json emqttb_nodes | jq -r ".[$((n-1))].fqdn")
+}
+
+function bm-ssh() {
+    node=$(terraform output -json | jq -r 'to_entries[] | select(.key | endswith("_nodes")) | .value.value[] | "\(.ip)\t\(.fqdn)"' | sort -k2 | fzf | cut -d $'\t' -f 1)
+    if [[ -n $node ]]; then
+        ssh -l ubuntu -i $(terraform output -raw ssh_key_path) "$node"
+    fi
+}
+
+function bm-urls() {
+    echo "dashboard: http://$(terraform output -raw emqx_dashboard_url)"
+    echo "grafana: http://$(terraform output -raw grafana_url)"
 }
 
 if command -v /opt/homebrew/bin/brew >/dev/null 2&>1; then eval "$(/opt/homebrew/bin/brew shellenv)"; fi
 if command -v rbenv >/dev/null 2&>1; then eval "$(rbenv init - zsh)"; fi
+if command -v direnv >/dev/null 2&>1; then eval "$(direnv hook zsh)"; fi
 [ -f /opt/gcloud/google-cloud-sdk/path.zsh.inc ] && source /opt/gcloud/google-cloud-sdk/path.zsh.inc
 [ -f /opt/gcloud/google-cloud-sdk/completion.zsh.inc ] && source /opt/gcloud/google-cloud-sdk/completion.zsh.inc
 [ -f /opt/homebrew/opt/asdf/libexec/asdf.sh ] && source /opt/homebrew/opt/asdf/libexec/asdf.sh
