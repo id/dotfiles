@@ -1,12 +1,8 @@
 export COLORTERM=truecolor
 export HISTSIZE=1000000000
 export SAVEHIST=1000000000
-export EDITOR='emacsclient -t'
+export EMACS_SOCKET_NAME="${TMPDIR}/emacs$(id -u)/server"
+export EDITOR="${EDITOR} --socket-name ${EMACS_SOCKET_NAME}"
 export PROMPT_EOL_MARK=''
-export HOMEBREW_NO_INSTALL_CLEANUP=1
-export HOMEBREW_NO_INSTALL_UPGRADE=1
-export HOMEBREW_CLEANUP_MAX_AGE_DAYS=3650
-export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
-. "$HOME/.cargo/env"
 export LC_CTYPE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
