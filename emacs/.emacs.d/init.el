@@ -3,7 +3,7 @@
              '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
 
-(setq package-list '(dockerfile-mode catppuccin-theme magit markdown-mode plantuml-mode terraform-mode yaml-mode hcl-mode))
+(setq package-list '(dockerfile-mode catppuccin-theme magit markdown-mode plantuml-mode terraform-mode yaml-mode hcl-mode editorconfig jsonrpc f s dash))
 
 (dolist (package package-list)
   (unless (package-installed-p package)
@@ -15,7 +15,7 @@
 (catppuccin-reload)
 
 (use-package erlang
-  :load-path ("/opt/otp-25/lib/tools-3.5.3/emacs")
+  :load-path ("~/.asdf/installs/erlang/emacs/lib/tools-*/emacs")
   :mode (("\\.erl?$" . erlang-mode)
 	 ("rebar\\.config$" . erlang-mode)
 	 ("relx\\.config$" . erlang-mode)
@@ -38,6 +38,7 @@
 (add-hook 'org-mode-hook 'copilot-mode)
 (add-hook 'yaml-mode-hook 'copilot-mode)
 (add-hook 'markdown-mode-hook 'copilot-mode)
+(setq copilot-indent-offset-warning-disable t)
 
 (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
 (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
