@@ -164,9 +164,9 @@ function bm-urls() {
     echo "grafana: http://$(terraform output -raw grafana_url)"
 }
 
-if command -v /opt/homebrew/bin/brew >/dev/null 2&>1; then eval "$(/opt/homebrew/bin/brew shellenv)"; fi
-if command -v rbenv >/dev/null 2&>1; then eval "$(rbenv init - zsh)"; fi
-if command -v direnv >/dev/null 2&>1; then eval "$(direnv hook zsh)"; fi
+if type brew &>/dev/null; then eval "$(/opt/homebrew/bin/brew shellenv)"; fi
+if type rbenv &>/dev/null; then eval "$(rbenv init - zsh)"; fi
+if type direnv &>/dev/null; then eval "$(direnv hook zsh)"; fi
 [ -f /opt/gcloud/google-cloud-sdk/path.zsh.inc ] && source /opt/gcloud/google-cloud-sdk/path.zsh.inc
 [ -f /opt/gcloud/google-cloud-sdk/completion.zsh.inc ] && source /opt/gcloud/google-cloud-sdk/completion.zsh.inc
 [ -f /opt/homebrew/opt/asdf/libexec/asdf.sh ] && source /opt/homebrew/opt/asdf/libexec/asdf.sh
