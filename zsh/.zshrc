@@ -28,14 +28,16 @@ compdef -d ansible-vault
 
 setopt PROMPT_SUBST ;
 if [ -f /opt/homebrew/etc/bash_completion.d/git-prompt.sh ]; then
-    export GIT_PS1_SHOWDIRTYSTATE=1
-    export GIT_PS1_SHOWSTASHSTATE=1
-    export GIT_PS1_SHOWUNTRACKEDFILES=1
-    export GIT_PS1_SHOWUPSTREAM=verbose
+    export GIT_PS1_SHOWDIRTYSTATE=1 # unstaged (*) and staged (+) changes will be shown next to the branch name
+    export GIT_PS1_SHOWSTASHSTATE=1 # '$' will be shown next to the branch name
+    export GIT_PS1_SHOWUNTRACKEDFILES=1 # '%' will be shown next to the branch name
+    export GIT_PS1_SHOWUPSTREAM=(git verbose name) # show number of commits ahead/behind (+/-) upstream and upstream abbrev name
+    export GIT_PS1_SHOWCONFLICTSTATE=yes # The prompt will include "|CONFLICT"
+    export GIT_PS1_SHOWCOLORHINTS=1
     source /opt/homebrew/etc/bash_completion.d/git-prompt.sh
-    PS1=$'\e[32m%n@%m\e[1m\e[31m$(__git_ps1 " (%s)") \e[33m%2~\e[0m\n'
+    PS1=$'\e[32m%n@%m\e[0m\e[1m$(__git_ps1 " (%s)") \e[33m%3~\e[0m\n'
 else
-    PS1=$'\e[32m%n@%m\e[1m\e[31m \e[33m%2~\e[0m\n'
+    PS1=$'\e[32m%n@%m \e[1m\e[33m%2~\e[0m\n'
 fi
 local rprompt_prefix='%{'$'\e[1A''%}' # one line up
 local rprompt_suffix='%{'$'\e[1B''%}' # one line down
