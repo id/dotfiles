@@ -8,9 +8,9 @@ zstyle :compinstall filename '.zshrc'
 
 unalias run-help 2>/dev/null
 alias help=run-help
-
 autoload -Uz run-help
 autoload -Uz run-help-git
+
 autoload -Uz compinit && compinit
 autoload -U select-word-style && select-word-style bash
 autoload -U zmv
@@ -27,10 +27,13 @@ if [ -f /opt/homebrew/etc/bash_completion.d/git-prompt.sh ]; then
     export GIT_PS1_SHOWUNTRACKEDFILES=1
     export GIT_PS1_SHOWUPSTREAM=verbose
     source /opt/homebrew/etc/bash_completion.d/git-prompt.sh
-    PS1=$'\e[37m%D %* \e[32m%n@%m\e[1m\e[31m$(__git_ps1 " (%s)") \e[33m%2~\e[0m\n'
+    PS1=$'\e[32m%n@%m\e[1m\e[31m$(__git_ps1 " (%s)") \e[33m%2~\e[0m\n'
 else
-    PS1=$'\e[37m%D %* \e[32m%n@%m\e[1m\e[31m \e[33m%2~\e[0m\n'
+    PS1=$'\e[32m%n@%m\e[1m\e[31m \e[33m%2~\e[0m\n'
 fi
+local rprompt_prefix='%{'$'\e[1A''%}' # one line up
+local rprompt_suffix='%{'$'\e[1B''%}' # one line down
+RPS1="$rprompt_prefix%D %*$rprompt_suffix"
 
 alias e='emacsclient -t'
 alias ls='ls -G'
