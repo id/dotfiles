@@ -1,4 +1,11 @@
-fpath=( /opt/homebrew/share/zsh/site-functions /usr/share/zsh/site-functions /usr/share/zsh/*/functions ${ASDF_DIR}/completions $fpath)
+fpath=( /usr/share/zsh/site-functions /usr/share/zsh/*/functions $fpath)
+
+if type brew &>/dev/null
+then
+  FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+fi
+
+autoload -Uz compinit && compinit
 
 zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*'
 zstyle ':completion:*' list-suffixes
@@ -11,7 +18,6 @@ alias help=run-help
 autoload -Uz run-help
 autoload -Uz run-help-git
 
-autoload -Uz compinit && compinit
 autoload -U select-word-style && select-word-style bash
 autoload -U zmv
 autoload -z edit-command-line
@@ -33,15 +39,15 @@ else
 fi
 local rprompt_prefix='%{'$'\e[1A''%}' # one line up
 local rprompt_suffix='%{'$'\e[1B''%}' # one line down
-RPS1="$rprompt_prefix%D %*$rprompt_suffix"
+RPS1="$rprompt_prefix%F{242}%D %*%f$rprompt_suffix"
 
 alias e='emacsclient -t'
 alias ls='ls -G'
-alias ll='ls -alhG'
+alias ll='ls -alhGF'
 alias g='grep --color=never'
-alias grep='grep --color=always'
-alias grepn='grep --color=always -n'
-alias erlgrep="find . -name '*.erl' | xargs grep --color=always -n"
+alias grep='grep --color=auto'
+alias grepn='grep --color=auto -n'
+alias erlgrep="find . -name '*.erl' | xargs grep --color=auto -n"
 alias br='git rev-parse --symbolic-full-name --abbrev-ref HEAD | tr -d "\n"'
 alias grum='git rebase upstream/master'
 alias gpom='git push origin master:master'
@@ -164,7 +170,7 @@ if command -v direnv >/dev/null 2&>1; then eval "$(direnv hook zsh)"; fi
 [ -f /opt/homebrew/opt/asdf/libexec/asdf.sh ] && source /opt/homebrew/opt/asdf/libexec/asdf.sh
 [ -f ~/.openai ] && source ~/.openai
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-[ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
+[ -f ~/.cargo/env ] && source ~/.cargo/env
 [ -d /opt/homebrew/opt/util-linux/bin ] && path+=('/opt/homebrew/opt/util-linux/bin')
 [ -d "$HOME/.cargo/bin" ] && path+=("$HOME/.cargo/bin")
 export PATH
