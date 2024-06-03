@@ -28,16 +28,17 @@ compdef -d ansible-vault
 
 setopt PROMPT_SUBST ;
 if [ -f /opt/homebrew/etc/bash_completion.d/git-prompt.sh ]; then
-    export GIT_PS1_SHOWDIRTYSTATE=1 # unstaged (*) and staged (+) changes will be shown next to the branch name
-    export GIT_PS1_SHOWSTASHSTATE=1 # '$' will be shown next to the branch name
-    export GIT_PS1_SHOWUNTRACKEDFILES=1 # '%' will be shown next to the branch name
-    export GIT_PS1_SHOWUPSTREAM=(git verbose name) # show number of commits ahead/behind (+/-) upstream and upstream abbrev name
+    export GIT_PS1_SHOWDIRTYSTATE=yes # unstaged (*) and staged (+) changes will be shown next to the branch name
+    export GIT_PS1_SHOWSTASHSTATE=yes # '$' will be shown next to the branch name
+    export GIT_PS1_SHOWUNTRACKEDFILES=yes # '%' will be shown next to the branch name
+    export GIT_PS1_SHOWUPSTREAM=(git verbose) # show number of commits ahead/behind (+/-) upstream and upstream abbrev name
     export GIT_PS1_SHOWCONFLICTSTATE=yes # The prompt will include "|CONFLICT"
-    export GIT_PS1_SHOWCOLORHINTS=1
+    export GIT_PS1_SHOWCOLORHINTS=yes
+    export GIT_PS1_DESCRIBE_STYLE='describe'
     source /opt/homebrew/etc/bash_completion.d/git-prompt.sh
-    PS1=$'\e[32m%n@%m\e[0m\e[1m$(__git_ps1 " (%s)") \e[33m%3~\e[0m\n'
+    PS1=$'\e[32m%n@%m:\e[1m\e[33m%3~\e[0m\e[1m$(__git_ps1 " (%s)")\e[0m\n'
 else
-    PS1=$'\e[32m%n@%m \e[1m\e[33m%2~\e[0m\n'
+    PS1=$'\e[32m%n@%m:\e[1m\e[33m%2~\e[0m\n'
 fi
 local rprompt_prefix='%{'$'\e[1A''%}' # one line up
 local rprompt_suffix='%{'$'\e[1B''%}' # one line down
@@ -50,7 +51,7 @@ alias g='grep --color=never'
 alias grep='grep --color=auto'
 alias grepn='grep --color=auto -n'
 alias erlgrep="find . -name '*.erl' | xargs grep --color=auto -n"
-alias br='git rev-parse --symbolic-full-name --abbrev-ref HEAD | tr -d "\n"'
+alias br='git branch --show-current 2> /dev/null'
 alias grum='git rebase upstream/master'
 alias gpom='git push origin master:master'
 alias delete-merged="git branch --merged | /usr/bin/grep -Ev 'master|main' | /usr/bin/grep -v '*' | xargs git branch --delete" #
