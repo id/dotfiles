@@ -11,9 +11,8 @@
 	co = checkout
 	st = status
 	br = branch
-  l = log --all --decorate --graph --abbrev-commit --date=relative --format=format:'%C(auto)%h%C(reset) - %C(green)(%ar)%C(reset) %s %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'
-  ll = log --all --decorate --graph --abbrev-commit --format=format:'%C(auto)%h%C(reset) - %C(green)(%ad)%C(reset) %s %C(dim white)- %an <%ae>%C(reset)%C(auto)%d%C(reset)'
-  lg = log --decorate --abbrev-commit --format=format:'%C(yellow)%h%C(reset) - %C(green)(%ad)%C(reset) %s %C(dim white)- %an <%ae>%C(reset)%C(auto)%d%C(reset)'
+  l = log --branches --remotes --tags --decorate --graph --abbrev-commit --format=format:'%C(auto)%h%C(reset) - %C(green)(%ar)%C(reset) %s %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'
+  ll = log --all --branches --remotes --tags --decorate --graph --abbrev-commit --format=format:'%C(auto)%h%C(reset) - %C(green)(%ad)%C(reset) %s %C(dim white)- %an <%ae>%C(reset)%C(auto)%d%C(reset)'
   ls = ls-files
 	type = cat-file -t
 	dump = cat-file -p
