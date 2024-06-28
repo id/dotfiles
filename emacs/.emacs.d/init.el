@@ -14,19 +14,20 @@
 (catppuccin-set-color 'base "#000000")
 (catppuccin-reload)
 
-(use-package erlang
-  :load-path ("~/.asdf/installs/erlang/emacs/lib/tools-*/emacs")
-  :mode (("\\.erl?$" . erlang-mode)
-	 ("rebar\\.config$" . erlang-mode)
-	 ("relx\\.config$" . erlang-mode)
-	 ("sys\\.config\\.src$" . erlang-mode)
-	 ("sys\\.config$" . erlang-mode)
-	 ("\\.config\\.src?$" . erlang-mode)
-	 ("\\.config\\.script?$" . erlang-mode)
-	 ("\\.hrl?$" . erlang-mode)
-	 ("\\.app?$" . erlang-mode)
-	 ("\\.app.src?$" . erlang-mode)
-	 ("\\Emakefile" . erlang-mode)))
+(defun add-erlang-emacs-to-load-path ()
+  (let* ((erlang-lib-dir "/opt/homebrew/opt/erlang/lib/erlang/lib/")
+         (tools-dir (car (file-expand-wildcards (concat erlang-lib-dir "tools-*/emacs")))))
+    (when tools-dir
+      (setq load-path (cons tools-dir load-path)))))
+
+(add-erlang-emacs-to-load-path)
+(setq erlang-root-dir "/opt/homebrew/opt/erlang")
+(setq exec-path (cons "/opt/homebrew/opt/erlang/bin" exec-path))
+(add-to-list 'auto-mode-alist '("rebar\\.config$" . erlang-mode))
+(add-to-list 'auto-mode-alist '("relx\\.config$" . erlang-mode))
+(add-to-list 'auto-mode-alist '("sys\\.config\\.src$" . erlang-mode))
+(add-to-list 'auto-mode-alist '("sys\\.config$" . erlang-mode))
+(require 'erlang-start)
 
 (add-hook 'erlang-mode-hook 'eglot-ensure)
 (add-to-list 'auto-mode-alist '("\\.hocon$" . hcl-mode))
