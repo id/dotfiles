@@ -27,6 +27,7 @@
 (add-to-list 'auto-mode-alist '("relx\\.config$" . erlang-mode))
 (add-to-list 'auto-mode-alist '("sys\\.config\\.src$" . erlang-mode))
 (add-to-list 'auto-mode-alist '("sys\\.config$" . erlang-mode))
+(add-to-list 'auto-mode-alist '("\\.hocon$" . hcl-mode))
 (require 'erlang-start)
 
 (require 'exec-path-from-shell)
@@ -40,6 +41,7 @@
   (add-hook 'sh-mode-hook #'lsp)
   (add-hook 'typescript-mode-hook #'lsp)
   (add-hook 'javascript-mode-hook #'lsp)
+  (add-hook 'python-mode-hook #'lsp)
 
   ;; ELP, added as priority 0 (> -1) so takes priority over the built-in one
   (lsp-register-client
@@ -51,7 +53,6 @@
 (setq lsp-warn-no-matched-clients nil)
 
 
-(add-to-list 'auto-mode-alist '("\\.hocon$" . hcl-mode))
 (setq load-path (cons  "~/code/copilot.el" load-path))
 (require 'copilot)
 (add-hook 'prog-mode-hook 'copilot-mode)
