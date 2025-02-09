@@ -1,4 +1,4 @@
-fpath=( /usr/share/zsh/site-functions /usr/share/zsh/*/functions $fpath)
+fpath=( /usr/share/zsh/site-functions /usr/share/zsh/*/functions ~/.zfunc $fpath)
 
 if type brew &>/dev/null
 then
@@ -59,17 +59,19 @@ alias tf=terraform
 alias ssh0='ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
 alias rsync0="rsync -e 'ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'"
 alias myip='curl -sS ifconfig.me'
-alias myip2='curl -sS ipinfo.io/ip'
-alias myip3='curl -sS https://am.i.mullvad.net/'
-alias myip4='dig -4 TXT +short o-o.myaddr.l.google.com @ns1.google.com | tr -d \"'
-alias myip5='curl wasab.is'
-alias myip6='curl -sL ip.guide | jq -r .ip'
+# alias myip2='curl -sS ipinfo.io/ip'
+# alias myip3='curl -sS https://am.i.mullvad.net/'
+# alias myip4='dig -4 TXT +short o-o.myaddr.l.google.com @ns1.google.com | tr -d \"'
+# alias myip5='curl wasab.is'
+# alias myip6='curl -sL ip.guide | jq -r .ip'
 alias myipinfo='curl -sL ip.guide'
-alias myipinfo2='curl -sL ipinfo.io'
-alias myipinfo3='curl -sS https://am.i.mullvad.net/json | jq .'
+# alias myipinfo2='curl -sL ipinfo.io'
+# alias myipinfo3='curl -sS https://am.i.mullvad.net/json | jq .'
 alias myasn='whois -h bgp.tools " -v $(curl -s ifconfig.me)"'
-alias myasn2='echo $(curl -sS ifconfig.me) | nc bgp.tools 43'
+# alias myasn2='echo $(curl -sS ifconfig.me) | nc bgp.tools 43'
 alias asn='whois -h bgp.tools " -v $*"'
+
+alias emacs='~/code/emacs/src/emacs'
 
 setopt AUTO_CD
 
@@ -84,7 +86,7 @@ setopt HIST_VERIFY               # Do not execute immediately upon history expan
 setopt APPEND_HISTORY            # append to history file
 setopt HIST_NO_STORE             # Don't store history commands
 
-ulimit -n 10240
+ulimit -n 122880
 
 function kerl-activate() {
     source $HOME/.kerl/installations/$1/activate
@@ -119,7 +121,7 @@ function emqx-token() {
 }
 
 function emqx-curl() {
-    curl -s -H "Authorization: Bearer $TOKEN" -X GET "http://${2:-127.0.0.1}:18083/api/v5/$1" | jq .
+    curl -s -H "Authorization: Bearer $TOKEN" -X GET "http://${2:-127.0.0.1}:18083/api/v5/$1"
 }
 
 function aws-unset() {
@@ -130,50 +132,29 @@ function aws-unset() {
 }
 
 function jwtd() {
-    jq -R 'split(".") |.[0:2] | map(@base64d) | map(fromjson)'
+    jq -R 'split(".") | .[0:2] | map(@base64d) | map(fromjson)'
 }
 
-function bm-start() {
-    n=${1:-1}
-    ansible emqtt_bench -m command -a 'systemctl start emqtt-bench' --become -l $(terraform output -json emqtt_bench_nodes | jq -r ".[$((n-1))].fqdn")
-}
-
-function bm-stop () {
-    n=${1:-1}
-    ansible emqtt_bench -m command -a 'systemctl stop emqtt-bench' --become -l $(terraform output -json emqtt_bench_nodes | jq -r ".[$((n-1))].fqdn")
-}
-
-function bmb-start() {
-    n=${1:-1}
-    ansible emqttb -m command -a 'systemctl start emqttb' --become -l $(terraform output -json emqttb_nodes | jq -r ".[$((n-1))].fqdn")
-}
-
-function bmb-stop() {
-    n=${1:-1}
-    ansible emqttb -m command -a 'systemctl stop emqttb' --become -l $(terraform output -json emqttb_nodes | jq -r ".[$((n-1))].fqdn")
-}
-
-function bm-ssh() {
-    node=$(terraform output -json | jq -r 'to_entries[] | select(.key | endswith("_nodes")) | .value.value[] | "\(.ip)\t\(.fqdn)"' | sort -k2 | fzf | cut -d $'\t' -f 1)
-    if [[ -n $node ]]; then
-        ssh -l ubuntu -i $(terraform output -raw ssh_key_path) "$node"
+function pr-link() {
+    prs=$(gh pr list --state open --author "${1:-@me}" --json number,title,url,createdAt --jq '.[] | "#\(.number) \(.title) (\(.createdAt | fromdateiso8601 | strftime("%Y-%m-%d")))"')
+    id=$(echo "$prs" | fzf --prompt="Select PR: " --height 15 --border --ansi | cut -d' ' -f1 | tr -d '#')
+    if [[ -n $id ]]; then
+        url=$(gh pr view $id --json url | jq -r '.url')
+        title=$(gh pr view $id --json title | jq -r '.title')
+        echo "<ul><li><a href=\"$url\">$title</a> #$id</li></ul>" | pbcopy-html
     fi
 }
 
-function bm-urls() {
-    echo "dashboard: http://$(terraform output -raw emqx_dashboard_url)"
-    echo "grafana: http://$(terraform output -raw grafana_url)"
-}
-
-if type brew &>/dev/null; then eval "$(/opt/homebrew/bin/brew shellenv)"; fi
-if type rbenv &>/dev/null; then eval "$(rbenv init - zsh)"; fi
-if type direnv &>/dev/null; then eval "$(direnv hook zsh)"; fi
+# if type rbenv &>/dev/null; then eval "$(rbenv init - zsh)"; fi
+# if type direnv &>/dev/null; then eval "$(direnv hook zsh)"; fi
 [ -f /opt/gcloud/google-cloud-sdk/path.zsh.inc ] && source /opt/gcloud/google-cloud-sdk/path.zsh.inc
 [ -f /opt/gcloud/google-cloud-sdk/completion.zsh.inc ] && source /opt/gcloud/google-cloud-sdk/completion.zsh.inc
-[ -f /opt/homebrew/opt/asdf/libexec/asdf.sh ] && source /opt/homebrew/opt/asdf/libexec/asdf.sh
 [ -f ~/.openai ] && source ~/.openai
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.cargo/env ] && source ~/.cargo/env
 [ -d /opt/homebrew/opt/util-linux/bin ] && path+=('/opt/homebrew/opt/util-linux/bin')
 [ -d "$HOME/.cargo/bin" ] && path+=("$HOME/.cargo/bin")
+[ -d "$HOME/.local/bin" ] && path+=("$HOME/.local/bin")
+
+[ -f /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
 export PATH
