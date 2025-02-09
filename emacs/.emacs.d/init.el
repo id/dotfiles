@@ -3,7 +3,7 @@
              '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
 
-(setq package-list '(dockerfile-mode catppuccin-theme magit markdown-mode plantuml-mode terraform-mode yaml-mode hcl-mode editorconfig jsonrpc f s dash))
+(setq package-list '(dockerfile-mode magit markdown-mode plantuml-mode terraform-mode yaml-mode hcl-mode editorconfig jsonrpc f s dash lsp-mode catppuccin-theme))
 
 (dolist (package package-list)
   (unless (package-installed-p package)
@@ -29,9 +29,29 @@
 (add-to-list 'auto-mode-alist '("sys\\.config$" . erlang-mode))
 (require 'erlang-start)
 
-(add-hook 'erlang-mode-hook 'eglot-ensure)
-(add-to-list 'auto-mode-alist '("\\.hocon$" . hcl-mode))
+(require 'exec-path-from-shell)
+(exec-path-from-shell-initialize)
+(use-package lsp-mode
 
+  :config
+  ;; Enable LSP automatically for Erlang files
+  (add-hook 'erlang-mode-hook #'lsp)
+  (add-hook 'elixir-mode-hook #'lsp)
+  (add-hook 'sh-mode-hook #'lsp)
+  (add-hook 'typescript-mode-hook #'lsp)
+  (add-hook 'javascript-mode-hook #'lsp)
+
+  ;; ELP, added as priority 0 (> -1) so takes priority over the built-in one
+  (lsp-register-client
+   (make-lsp-client :new-connection (lsp-stdio-connection '("elp" "server"))
+                    :major-modes '(erlang-mode)
+                    :priority 0
+                    :server-id 'erlang-language-platform))
+)
+(setq lsp-warn-no-matched-clients nil)
+
+
+(add-to-list 'auto-mode-alist '("\\.hocon$" . hcl-mode))
 (setq load-path (cons  "~/code/copilot.el" load-path))
 (require 'copilot)
 (add-hook 'prog-mode-hook 'copilot-mode)
@@ -40,6 +60,7 @@
 (add-hook 'yaml-mode-hook 'copilot-mode)
 (add-hook 'markdown-mode-hook 'copilot-mode)
 (setq copilot-indent-offset-warning-disable t)
+(setq copilot-max-char-warning-disable t)
 
 (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
 (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
@@ -105,6 +126,7 @@
 (add-hook 'magit-log-edit-mode-hook
           (lambda ()
              (shell-command "./.git/hooks/prepare-commit-msg")))
+(setq magit-show-long-lines-warning nil)
 
 (put 'downcase-region 'disabled nil)
 
@@ -143,7 +165,7 @@
  '(global-so-long-mode t)
  '(markdown-command "/opt/homebrew/bin/pandoc")
  '(package-selected-packages
-   '(jinja2-mode go-mode yaml-mode typescript-mode terraform-mode s rust-mode powershell plantuml-mode modus-themes markdown-mode magit ir-black-theme fill-column-indicator elixir-mode eglot editorconfig dockerfile-mode cmake-mode catppuccin-theme))
+   '(exec-path-from-shell copilot-chat lsp-ui lsp-mode clojure-mode vue-mode jinja2-mode go-mode yaml-mode typescript-mode terraform-mode s rust-mode powershell plantuml-mode modus-themes markdown-mode magit ir-black-theme fill-column-indicator elixir-mode eglot editorconfig dockerfile-mode cmake-mode catppuccin-theme))
  '(plantuml-jar-path
    "/opt/homebrew/Cellar/plantuml/1.2023.12/libexec/plantuml.jar")
  '(safe-local-variable-values
