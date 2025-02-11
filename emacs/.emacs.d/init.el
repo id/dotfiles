@@ -3,19 +3,30 @@
              '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
 
-(setq package-list '(dockerfile-mode magit markdown-mode plantuml-mode terraform-mode yaml-mode hcl-mode editorconfig jsonrpc f s dash lsp-mode catppuccin-theme counsel ivy))
+(setq package-list '(dockerfile-mode magit markdown-mode plantuml-mode terraform-mode yaml-mode hcl-mode editorconfig jsonrpc f s dash lsp-mode ivy))
 
 (dolist (package package-list)
   (unless (package-installed-p package)
     (package-install package)))
 
-(load-theme 'catppuccin t)
-(setq catppuccin-flavor 'mocha)
-(catppuccin-set-color 'base "#000000")
-(catppuccin-reload)
+(use-package doom-themes
+  :config
+  (load-theme 'doom-tomorrow-night t)
+  (doom-themes-org-config))
 
-(setq ivy-use-virtual-buffers t)
-(setq ivy-count-format "(%d/%d) ")
+(use-package doom-modeline
+  :init (doom-modeline-mode)
+  :custom
+  (doom-modeline-icon (display-graphic-p)))
+
+(use-package ivy
+  :defer 0.1
+  :diminish
+  :custom
+  (ivy-count-format "(%d/%d) ")
+  (ivy-use-virtual-buffers t)
+  (ivy-re-builders-alist '((t . ivy--regex-fuzzy)))
+  :config (ivy-mode))
 
 (defun add-erlang-emacs-to-load-path ()
   (let* ((erlang-lib-dir "/opt/homebrew/opt/erlang/lib/erlang/lib/")
@@ -35,8 +46,8 @@
 
 (require 'exec-path-from-shell)
 (exec-path-from-shell-initialize)
-(use-package lsp-mode
 
+(use-package lsp-mode
   :config
   ;; Enable LSP automatically for Erlang files
   (add-hook 'erlang-mode-hook #'lsp)
@@ -70,50 +81,52 @@
 (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
 (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
 
-(setq scroll-conservatively most-positive-fixnum)
-
-(fset 'yes-or-no-p 'y-or-n-p)
-(delete-selection-mode 1)
-(global-auto-revert-mode 1)
-
 (global-set-key [?\M-p] 'scroll-down-line)
 (global-set-key [?\M-n] 'scroll-up-line)
 
-(display-line-numbers-mode)
+(fset 'yes-or-no-p 'y-or-n-p)
+(menu-bar-mode -1)
+(recentf-mode 1)
+(delete-selection-mode 1)
+(global-auto-revert-mode 1)
+(show-paren-mode 1)
+
+(setq-default standard-indent 2)
 (setq-default erlang-indent-level 4)
 (setq-default js-indent-level 2)
 (setq-default typescript-indent-level 2)
+(setq-default c-indent-level 2)
 (setq-default tab-width 2)
 (setq-default indent-tabs-mode nil)
 (setq-default allout-layout t)
-
-(setq whitespace-style '(tabs trailing lines tab-mark))
-(menu-bar-mode -1)
-
-(set-terminal-coding-system 'utf-8)
-(set-keyboard-coding-system 'utf-8)
-(prefer-coding-system 'utf-8)
-
-(recentf-mode 1)
-(setq show-paren-delay 0)
-(show-paren-mode 1)
-
-(setq inhibit-splash-screen t)
-(setq initial-scratch-message "")
-
 ; https://www.gnu.org/software/emacs/manual/html_node/emacs/Auto-Save-Control.html
 (setq-default auto-save-default nil)
 (setq-default auto-save-visited-mode t)
 (setq-default auto-save-visited-file-name nil)
-
+(setq scroll-conservatively most-positive-fixnum)
+(setq size-indication-mode t)
+(setq column-number-mode t)
+(setq inhibit-splash-screen t)
+(setq initial-scratch-message "")
+(setq whitespace-style '(tabs trailing lines tab-mark))
 (setq make-backup-files nil)
-
 (setq require-final-newline t)
 (setq vc-follow-symlinks t)
+(setq default-directory (concat (getenv "HOME") "/"))
+(setq show-paren-delay 0)
+(setq column-number-mode t)
+(setq create-lockfiles nil)
+(setq display-line-numbers t)
+(setq global-hl-line-mode t)
+(setq global-so-long-mode t)
 
-(require 'ido)
-(ido-mode t)
-(setq ido-enable-flex-matching t)
+(prefer-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(set-locale-environment "en_US.UTF-8")
+(setq default-buffer-file-coding-system 'utf-8)
+(setq encoding 'utf-8)
 
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)
@@ -144,42 +157,20 @@
 
 (setq interprogram-cut-function 'my-cut-function)
 
-(setq default-directory (concat (getenv "HOME") "/"))
-
 (setq plantuml-executable-path "/opt/homebrew/bin/plantuml")
+(setq plantuml-jar-path "/opt/homebrew/Cellar/plantuml/1.2023.12/libexec/plantuml.jar")
 (setq plantuml-default-exec-mode 'executable)
-
-(prefer-coding-system 'utf-8)
-(set-default-coding-systems 'utf-8)
-(set-terminal-coding-system 'utf-8)
-(set-keyboard-coding-system 'utf-8)
-(setq default-buffer-file-coding-system 'utf-8)
-(set-locale-environment "en_US.UTF-8")
+(setq markdown-command "/opt/homebrew/bin/pandoc")
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(column-number-mode t)
- '(create-lockfiles nil)
  '(custom-safe-themes
-   '("fee7287586b17efbfda432f05539b58e86e059e78006ce9237b8732fde991b4c" "524fa911b70d6b94d71585c9f0c5966fe85fb3a9ddd635362bfabd1a7981a307" "1c9ba588b7dedc017c5ee7fab0b9c74595a622d94298d9b79633a55091bed503" "88cb0f9c0c11dbb4c26a628d35eb9239d1cf580cfd28e332e654e7f58b4e721b" "611ef0918b8b413badb8055089b5499c1d4ac20f1861efba8f3bfcb36ad0a448" "15604b083d03519b0c2ed7b32da6d7b2dc2f6630bef62608def60cdcf9216184" "69f7e8101867cfac410e88140f8c51b4433b93680901bb0b52014144366a08c8" "38f04d6cff372da39a8d0451a4903681e52a5a9702f37021cf1d3d246f0b37c6" "f5e666fba0ded6ae9be004314ecf5f7feb605cdb84711b5c5ffd81acfb831183"))
- '(display-line-numbers t)
- '(global-hl-line-mode t)
- '(global-so-long-mode t)
- '(markdown-command "/opt/homebrew/bin/pandoc")
+   '())
  '(package-selected-packages
-   '(counsel ivy exec-path-from-shell copilot-chat lsp-mode clojure-mode vue-mode jinja2-mode go-mode yaml-mode typescript-mode terraform-mode s rust-mode powershell plantuml-mode modus-themes markdown-mode magit ir-black-theme fill-column-indicator elixir-mode eglot editorconfig dockerfile-mode cmake-mode catppuccin-theme))
- '(plantuml-jar-path
-   "/opt/homebrew/Cellar/plantuml/1.2023.12/libexec/plantuml.jar")
- '(safe-local-variable-values
-   '((standard-indent . 2)
-     (encoding . utf-8)
-     (c-indent-level . 2)
-     (allout-layout . t)))
- '(size-indication-mode t)
- '(standard-indent 2))
+   '()))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
