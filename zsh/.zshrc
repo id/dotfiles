@@ -152,9 +152,10 @@ function pr-link() {
 [ -f ~/.openai ] && source ~/.openai
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.cargo/env ] && source ~/.cargo/env
-[ -d /opt/homebrew/opt/util-linux/bin ] && path+=('/opt/homebrew/opt/util-linux/bin')
-[ -d "$HOME/.cargo/bin" ] && path+=("$HOME/.cargo/bin")
-[ -d "$HOME/.local/bin" ] && path+=("$HOME/.local/bin")
-
 [ -f /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
+[ -d /opt/homebrew/opt/util-linux/bin ] && path+=('/opt/homebrew/opt/util-linux/bin')
+[ -d "$HOME/.cargo/bin" ] && PATH="$HOME/.cargo/bin:$PATH"
+[ -d "$HOME/.local/bin" ] && PATH="$HOME/.local/bin:$PATH"
+[ -d "$HOME/.asdf" ] && PATH="$HOME/.asdf/shims:$PATH"
+
 export PATH
