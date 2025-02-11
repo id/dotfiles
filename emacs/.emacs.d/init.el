@@ -3,7 +3,7 @@
              '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
 
-(setq package-list '(dockerfile-mode magit markdown-mode plantuml-mode terraform-mode yaml-mode hcl-mode editorconfig jsonrpc f s dash lsp-mode ivy))
+(setq package-list '(dockerfile-mode magit markdown-mode plantuml-mode terraform-mode yaml-mode hcl-mode lsp-mode counsel smex flx ivy doom-themes doom-modeline))
 
 (dolist (package package-list)
   (unless (package-installed-p package)
@@ -11,22 +11,27 @@
 
 (use-package doom-themes
   :config
-  (load-theme 'doom-tomorrow-night t)
-  (doom-themes-org-config))
+  (load-theme 'doom-material-dark t))
 
 (use-package doom-modeline
   :init (doom-modeline-mode)
   :custom
   (doom-modeline-icon (display-graphic-p)))
 
-(use-package ivy
-  :defer 0.1
-  :diminish
-  :custom
-  (ivy-count-format "(%d/%d) ")
-  (ivy-use-virtual-buffers t)
-  (ivy-re-builders-alist '((t . ivy--regex-fuzzy)))
-  :config (ivy-mode))
+(use-package counsel
+  :ensure t
+  :config
+  (use-package smex
+    :ensure t)
+  (use-package flx
+    :ensure t)
+  (ivy-mode 1)
+  (setq ivy-use-virtual-buffers t)
+  ;; intentional space before end of string
+  (setq ivy-count-format "(%d/%d) ")
+  (setq ivy-initial-inputs-alist nil)
+  (setq ivy-re-builders-alist
+        '((t . ivy--regex-fuzzy))))
 
 (defun add-erlang-emacs-to-load-path ()
   (let* ((erlang-lib-dir "/opt/homebrew/opt/erlang/lib/erlang/lib/")
@@ -89,7 +94,6 @@
 (recentf-mode 1)
 (delete-selection-mode 1)
 (global-auto-revert-mode 1)
-(show-paren-mode 1)
 
 (setq-default standard-indent 2)
 (setq-default erlang-indent-level 4)
@@ -104,8 +108,6 @@
 (setq-default auto-save-visited-mode t)
 (setq-default auto-save-visited-file-name nil)
 (setq scroll-conservatively most-positive-fixnum)
-(setq size-indication-mode t)
-(setq column-number-mode t)
 (setq inhibit-splash-screen t)
 (setq initial-scratch-message "")
 (setq whitespace-style '(tabs trailing lines tab-mark))
@@ -114,11 +116,12 @@
 (setq vc-follow-symlinks t)
 (setq default-directory (concat (getenv "HOME") "/"))
 (setq show-paren-delay 0)
+(setq size-indication-mode t)
 (setq column-number-mode t)
-(setq create-lockfiles nil)
-(setq display-line-numbers t)
 (setq global-hl-line-mode t)
 (setq global-so-long-mode t)
+(setq display-line-numbers t)
+(setq create-lockfiles nil)
 
 (prefer-coding-system 'utf-8)
 (set-default-coding-systems 'utf-8)
@@ -167,10 +170,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   '())
+ '(custom-safe-themes 'nil)
  '(package-selected-packages
-   '()))
+   '(flx yaml-mode vue-mode typescript-mode terraform-mode rust-mode plantuml-mode lsp-mode ivy-rich go-mode exec-path-from-shell elixir-mode editorconfig doom-themes doom-modeline dockerfile-mode counsel copilot-chat clojure-mode catppuccin-theme async)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
