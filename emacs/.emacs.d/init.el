@@ -3,7 +3,7 @@
              '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
 
-(setq package-list '(dockerfile-mode magit markdown-mode plantuml-mode terraform-mode yaml-mode hcl-mode editorconfig jsonrpc f s dash lsp-mode catppuccin-theme))
+(setq package-list '(dockerfile-mode magit markdown-mode plantuml-mode terraform-mode yaml-mode hcl-mode editorconfig jsonrpc f s dash lsp-mode catppuccin-theme counsel ivy))
 
 (dolist (package package-list)
   (unless (package-installed-p package)
@@ -13,6 +13,9 @@
 (setq catppuccin-flavor 'mocha)
 (catppuccin-set-color 'base "#000000")
 (catppuccin-reload)
+
+(setq ivy-use-virtual-buffers t)
+(setq ivy-count-format "(%d/%d) ")
 
 (defun add-erlang-emacs-to-load-path ()
   (let* ((erlang-lib-dir "/opt/homebrew/opt/erlang/lib/erlang/lib/")
@@ -51,7 +54,8 @@
                     :server-id 'erlang-language-platform))
 )
 (setq lsp-warn-no-matched-clients nil)
-
+(setq lsp-ui-sideline-enable nil)
+(setq lsp-lens-enable nil)
 
 (setq load-path (cons  "~/code/copilot.el" load-path))
 (require 'copilot)
@@ -166,7 +170,7 @@
  '(global-so-long-mode t)
  '(markdown-command "/opt/homebrew/bin/pandoc")
  '(package-selected-packages
-   '(exec-path-from-shell copilot-chat lsp-ui lsp-mode clojure-mode vue-mode jinja2-mode go-mode yaml-mode typescript-mode terraform-mode s rust-mode powershell plantuml-mode modus-themes markdown-mode magit ir-black-theme fill-column-indicator elixir-mode eglot editorconfig dockerfile-mode cmake-mode catppuccin-theme))
+   '(counsel ivy exec-path-from-shell copilot-chat lsp-mode clojure-mode vue-mode jinja2-mode go-mode yaml-mode typescript-mode terraform-mode s rust-mode powershell plantuml-mode modus-themes markdown-mode magit ir-black-theme fill-column-indicator elixir-mode eglot editorconfig dockerfile-mode cmake-mode catppuccin-theme))
  '(plantuml-jar-path
    "/opt/homebrew/Cellar/plantuml/1.2023.12/libexec/plantuml.jar")
  '(safe-local-variable-values
@@ -182,4 +186,4 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(hl-line ((t (:extend t :background "#151515" :underline nil)))))
+ )
