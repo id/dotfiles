@@ -95,13 +95,17 @@
 (delete-selection-mode 1)
 (global-auto-revert-mode 1)
 
-(setq-default standard-indent 2)
-(setq-default erlang-indent-level 4)
-(setq-default js-indent-level 2)
-(setq-default typescript-indent-level 2)
-(setq-default c-indent-level 2)
-(setq-default tab-width 2)
-(setq-default indent-tabs-mode nil)
+(setq-default
+    indent-tabs-mode nil
+    tab-width 2
+    tab-stop-list (quote (2 4))
+    standard-indent 2
+    erlang-indent-level 4
+    c-indent-level 2
+    sh-basic-offset 2
+    js-indent-level 2
+    typescript-indent-level 2
+)
 (setq-default allout-layout t)
 ; https://www.gnu.org/software/emacs/manual/html_node/emacs/Auto-Save-Control.html
 (setq-default auto-save-default nil)
