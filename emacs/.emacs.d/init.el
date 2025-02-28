@@ -19,6 +19,7 @@
   :custom
   (setq doom-modeline-indent-info t)
   (setq doom-modeline-total-line-number t)
+  (setq doom-modeline-minor-modes t)
   (setq doom-modeline-gnus nil)
   (setq doom-modeline-irc nil)
   (setq doom-modeline-time nil)
@@ -189,7 +190,7 @@
  '(custom-safe-themes
    '("014cb63097fc7dbda3edf53eb09802237961cbb4c9e9abd705f23b86511b0a69" "0325a6b5eea7e5febae709dab35ec8648908af12cf2d2b569bedc8da0a3a81c1" "9013233028d9798f901e5e8efb31841c24c12444d3b6e92580080505d56fd392" "6e18353d35efc18952c57d3c7ef966cad563dc65a2bba0660b951d990e23fc07" "f5f80dd6588e59cfc3ce2f11568ff8296717a938edd448a947f9823a4e282b66" "e978b5106d203ba61eda3242317feff219f257f6300bd9b952726faf4c5dee7b" "c1d5759fcb18b20fd95357dcd63ff90780283b14023422765d531330a3d3cec2" "4594d6b9753691142f02e67b8eb0fda7d12f6cc9f1299a49b819312d6addad1d" "dccf4a8f1aaf5f24d2ab63af1aa75fd9d535c83377f8e26380162e888be0c6a9" "4b6cc3b60871e2f4f9a026a5c86df27905fb1b0e96277ff18a76a39ca53b82e1" "f4d1b183465f2d29b7a2e9dbe87ccc20598e79738e5d29fc52ec8fb8c576fcfd" "34cf3305b35e3a8132a0b1bdf2c67623bc2cb05b125f8d7d26bd51fd16d547ec"))
  '(package-selected-packages
-   '(flx yaml-mode vue-mode typescript-mode terraform-mode rust-mode plantuml-mode lsp-mode ivy-rich go-mode exec-path-from-shell elixir-mode editorconfig doom-themes doom-modeline dockerfile-mode counsel copilot-chat clojure-mode catppuccin-theme async)))
+   '(devdocs flx yaml-mode vue-mode typescript-mode terraform-mode rust-mode plantuml-mode lsp-mode ivy-rich go-mode exec-path-from-shell elixir-mode editorconfig doom-themes doom-modeline dockerfile-mode counsel copilot-chat clojure-mode catppuccin-theme async)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
