@@ -36,13 +36,10 @@ if [ -f /opt/homebrew/etc/bash_completion.d/git-prompt.sh ]; then
     export GIT_PS1_SHOWCOLORHINTS=yes
     export GIT_PS1_DESCRIBE_STYLE='describe'
     source /opt/homebrew/etc/bash_completion.d/git-prompt.sh
-    PS1=$'\e[32m%n@%m:\e[1m\e[33m%3~\e[0m\e[1m$(__git_ps1 " (%s)")\e[0m\n'
+    PROMPT=$'%F{8}%*%f %F{yellow}%~%f%F{green}$(__git_ps1 " (%s)")%f\n'
 else
-    PS1=$'\e[32m%n@%m:\e[1m\e[33m%2~\e[0m\n'
+    PROMPT=$'%F{8}%*%f %F{yellow}%~%f\n'
 fi
-local rprompt_prefix='%{'$'\e[1A''%}' # one line up
-local rprompt_suffix='%{'$'\e[1B''%}' # one line down
-RPS1="$rprompt_prefix%F{242}%D %*%f$rprompt_suffix"
 
 alias e='emacsclient -t'
 alias ls='ls -G'
