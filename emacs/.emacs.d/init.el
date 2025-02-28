@@ -12,7 +12,7 @@
 (use-package doom-themes
   :config
   (setq doom-ir-black-brighter-comments t)
-  (load-theme 'doom-ir-black t))
+  (load-theme 'doom-material-dark t))
 
 (use-package doom-modeline
   :ensure t
@@ -104,6 +104,8 @@
 (recentf-mode 1)
 (delete-selection-mode 1)
 (global-auto-revert-mode 1)
+(hl-line-mode 1)
+(global-hl-line-mode 1)
 
 ;; indentation
 (setq-default
@@ -188,7 +190,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("014cb63097fc7dbda3edf53eb09802237961cbb4c9e9abd705f23b86511b0a69" "0325a6b5eea7e5febae709dab35ec8648908af12cf2d2b569bedc8da0a3a81c1" "9013233028d9798f901e5e8efb31841c24c12444d3b6e92580080505d56fd392" "6e18353d35efc18952c57d3c7ef966cad563dc65a2bba0660b951d990e23fc07" "f5f80dd6588e59cfc3ce2f11568ff8296717a938edd448a947f9823a4e282b66" "e978b5106d203ba61eda3242317feff219f257f6300bd9b952726faf4c5dee7b" "c1d5759fcb18b20fd95357dcd63ff90780283b14023422765d531330a3d3cec2" "4594d6b9753691142f02e67b8eb0fda7d12f6cc9f1299a49b819312d6addad1d" "dccf4a8f1aaf5f24d2ab63af1aa75fd9d535c83377f8e26380162e888be0c6a9" "4b6cc3b60871e2f4f9a026a5c86df27905fb1b0e96277ff18a76a39ca53b82e1" "f4d1b183465f2d29b7a2e9dbe87ccc20598e79738e5d29fc52ec8fb8c576fcfd" "34cf3305b35e3a8132a0b1bdf2c67623bc2cb05b125f8d7d26bd51fd16d547ec"))
+   '("da75eceab6bea9298e04ce5b4b07349f8c02da305734f7c0c8c6af7b5eaa9738" "02d422e5b99f54bd4516d4157060b874d14552fe613ea7047c4a5cfa1288cf4f" "aec7b55f2a13307a55517fdf08438863d694550565dee23181d2ebd973ebd6b8" "d6b934330450d9de1112cbb7617eaf929244d192c4ffb1b9e6b63ad574784aad" "b5fd9c7429d52190235f2383e47d340d7ff769f141cd8f9e7a4629a81abc6b19" "a6920ee8b55c441ada9a19a44e9048be3bfb1338d06fc41bce3819ac22e4b5a1" "b754d3a03c34cfba9ad7991380d26984ebd0761925773530e24d8dd8b6894738" "2b501400e19b1dd09d8b3708cefcb5227fda580754051a24e8abf3aff0601f87" "014cb63097fc7dbda3edf53eb09802237961cbb4c9e9abd705f23b86511b0a69" "0325a6b5eea7e5febae709dab35ec8648908af12cf2d2b569bedc8da0a3a81c1" "9013233028d9798f901e5e8efb31841c24c12444d3b6e92580080505d56fd392" "6e18353d35efc18952c57d3c7ef966cad563dc65a2bba0660b951d990e23fc07" "f5f80dd6588e59cfc3ce2f11568ff8296717a938edd448a947f9823a4e282b66" "e978b5106d203ba61eda3242317feff219f257f6300bd9b952726faf4c5dee7b" "c1d5759fcb18b20fd95357dcd63ff90780283b14023422765d531330a3d3cec2" "4594d6b9753691142f02e67b8eb0fda7d12f6cc9f1299a49b819312d6addad1d" "dccf4a8f1aaf5f24d2ab63af1aa75fd9d535c83377f8e26380162e888be0c6a9" "4b6cc3b60871e2f4f9a026a5c86df27905fb1b0e96277ff18a76a39ca53b82e1" "f4d1b183465f2d29b7a2e9dbe87ccc20598e79738e5d29fc52ec8fb8c576fcfd" "34cf3305b35e3a8132a0b1bdf2c67623bc2cb05b125f8d7d26bd51fd16d547ec"))
  '(package-selected-packages
    '(devdocs flx yaml-mode vue-mode typescript-mode terraform-mode rust-mode plantuml-mode lsp-mode ivy-rich go-mode exec-path-from-shell elixir-mode editorconfig doom-themes doom-modeline dockerfile-mode counsel copilot-chat clojure-mode catppuccin-theme async)))
 
