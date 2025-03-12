@@ -68,8 +68,6 @@ alias myasn='whois -h bgp.tools " -v $(curl -s ifconfig.me)"'
 # alias myasn2='echo $(curl -sS ifconfig.me) | nc bgp.tools 43'
 alias asn='whois -h bgp.tools " -v $*"'
 
-alias emacs='~/code/emacs/src/emacs'
-
 setopt AUTO_CD
 
 setopt EXTENDED_HISTORY          # Write the history file in the ':start:elapsed;command' format.
