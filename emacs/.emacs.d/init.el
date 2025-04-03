@@ -83,7 +83,7 @@
 
 (use-package lsp-mode
   :hook ((erlang-ts-mode elixir-mode sh-mode typescript-mode
-                      javascript-mode python-mode rust-mode) . lsp)
+                         javascript-mode python-mode rust-mode) . lsp)
   :config
   (lsp-register-client
    (make-lsp-client :new-connection (lsp-stdio-connection '("elp" "server"))
@@ -97,7 +97,8 @@
 
 (use-package copilot
   :vc (:url "https://github.com/copilot-emacs/copilot.el"
-       :rev :newest)
+            :rev :newest
+            :branch "main")
   :hook ((prog-mode . copilot-mode)
          (git-commit-mode . copilot-mode)
          (org-mode . copilot-mode)
@@ -106,6 +107,7 @@
   :custom
   (copilot-indent-offset-warning-disable t)
   (copilot-max-char-warning-disable t)
+  (copilot-idle-delay 1)
   :bind (:map copilot-completion-map
               ("<tab>" . copilot-accept-completion)
               ("TAB" . copilot-accept-completion))
@@ -250,12 +252,11 @@
      "f4d1b183465f2d29b7a2e9dbe87ccc20598e79738e5d29fc52ec8fb8c576fcfd"
      "34cf3305b35e3a8132a0b1bdf2c67623bc2cb05b125f8d7d26bd51fd16d547ec"))
  '(package-selected-packages
-   '(async catppuccin-theme clojure-mode consult copilot copilot-chat
-           counsel devdocs dockerfile-mode doom-modeline doom-themes
-           elixir-mode erlang-ts exec-path-from-shell flx go-mode
-           ivy-rich lsp-mode marginalia orderless plantuml-mode
-           rust-mode smex terraform-mode typescript-mode vertico
-           vue-mode yaml-mode)))
+   '(async clojure-mode consult copilot copilot-chat counsel devdocs
+           dockerfile-mode doom-modeline doom-themes elixir-mode
+           erlang-ts flx go-mode ivy-rich lsp-mode marginalia
+           orderless plantuml-mode rust-mode smex terraform-mode
+           typescript-mode vertico vue-mode yaml-mode yasnippet)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
