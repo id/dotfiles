@@ -1,17 +1,19 @@
-fpath=( /usr/share/zsh/site-functions /usr/share/zsh/*/functions ~/.zfunc $fpath)
-
-if type brew &>/dev/null
+if type /opt/homebrew/bin/brew &>/dev/null
 then
-  FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+  eval "$(/opt/homebrew/bin/brew shellenv zsh)"
 fi
 
 autoload -Uz compinit && compinit
 
-zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*'
 zstyle ':completion:*' list-suffixes
 zstyle ':completion:*' expand prefix suffix
-[ -f /opt/homebrew/etc/bash_completion.d/git-completion.bash ] && zstyle ':completion:*:*:git:*' script /opt/homebrew/etc/bash_completion.d/git-completion.bash
-zstyle :compinstall filename '.zshrc'
+zstyle ':completion:*' menu yes select
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*:processes' command 'ps aux'
+zstyle ':completion:*:processes' sort false
+zstyle ':completion:*:processes-names' command 'ps xho command'
+
+compdef -d ansible-vault
 
 unalias run-help 2>/dev/null
 alias help=run-help
@@ -24,10 +26,8 @@ autoload -z edit-command-line
 zle -N edit-command-line
 bindkey "^X^E" edit-command-line
 
-compdef -d ansible-vault
-
 setopt PROMPT_SUBST ;
-if [ -f /opt/homebrew/etc/bash_completion.d/git-prompt.sh ]; then
+if [ -f $HOMEBREW_PREFIX/etc/bash_completion.d/git-prompt.sh ]; then
     export GIT_PS1_SHOWDIRTYSTATE=yes # unstaged (*) and staged (+) changes will be shown next to the branch name
     export GIT_PS1_SHOWSTASHSTATE=yes # '$' will be shown next to the branch name
     export GIT_PS1_SHOWUNTRACKEDFILES=yes # '%' will be shown next to the branch name
@@ -35,7 +35,7 @@ if [ -f /opt/homebrew/etc/bash_completion.d/git-prompt.sh ]; then
     export GIT_PS1_SHOWCONFLICTSTATE=yes # The prompt will include "|CONFLICT"
     export GIT_PS1_SHOWCOLORHINTS=yes
     export GIT_PS1_DESCRIBE_STYLE='describe'
-    source /opt/homebrew/etc/bash_completion.d/git-prompt.sh
+    source $HOMEBREW_PREFIX/etc/bash_completion.d/git-prompt.sh
     PROMPT=$'%F{8}%*%f %F{yellow}%~%f%F{green}$(__git_ps1 " (%s)")%f\n'
 else
     PROMPT=$'%F{8}%*%f %F{yellow}%~%f\n'
@@ -67,8 +67,6 @@ alias myipinfo='curl -sL ip.guide'
 alias myasn='whois -h bgp.tools " -v $(curl -s ifconfig.me)"'
 # alias myasn2='echo $(curl -sS ifconfig.me) | nc bgp.tools 43'
 alias asn='whois -h bgp.tools " -v $*"'
-
-setopt AUTO_CD
 
 setopt EXTENDED_HISTORY          # Write the history file in the ':start:elapsed;command' format.
 setopt INC_APPEND_HISTORY        # Write to the history file immediately, not when the shell exits.
@@ -146,11 +144,9 @@ function pr-link() {
 [ -f /opt/gcloud/google-cloud-sdk/completion.zsh.inc ] && source /opt/gcloud/google-cloud-sdk/completion.zsh.inc
 [ -f ~/.openai ] && source ~/.openai
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-[ -f ~/.cargo/env ] && source ~/.cargo/env
-[ -f /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
-[ -d /opt/homebrew/opt/util-linux/bin ] && path+=('/opt/homebrew/opt/util-linux/bin')
-[ -d "$HOME/.cargo/bin" ] && PATH="$HOME/.cargo/bin:$PATH"
-[ -d "$HOME/.local/bin" ] && PATH="$HOME/.local/bin:$PATH"
-[ -d "$HOME/.asdf" ] && PATH="$HOME/.asdf/shims:$PATH"
+[ -d $HOMEBREW_PREFIX/opt/util-linux/bin ] && path=($HOMEBREW_PREFIX/opt/util-linux/bin $path)
+[ -d ~/.cargo/bin ] && path=(~/.cargo/bin $path)
+[ -d ~/.local/bin ] && path=(~/.local/bin $path)
+[ -d ~/.asdf ] && path=(~/.asdf/shims $path)
 
 export PATH
