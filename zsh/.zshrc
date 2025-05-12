@@ -7,7 +7,7 @@ autoload -Uz compinit && compinit
 
 zstyle ':completion:*' list-suffixes
 zstyle ':completion:*' expand prefix suffix
-zstyle ':completion:*' menu yes select
+zstyle ':completion:*' menu yes
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*:processes' command 'ps aux'
 zstyle ':completion:*:processes' sort false
@@ -134,7 +134,7 @@ function pr-link() {
     if [[ -n $id ]]; then
         url=$(gh pr view $id --json url | jq -r '.url')
         title=$(gh pr view $id --json title | jq -r '.title')
-        echo "<ul><li><a href=\"$url\">$title</a> #$id</li></ul>" | pbcopy-html
+        echo -n "[$title]($url) #$id" | pbcopy
     fi
 }
 
@@ -142,7 +142,11 @@ function pr-link() {
 # if type direnv &>/dev/null; then eval "$(direnv hook zsh)"; fi
 [ -f /opt/gcloud/google-cloud-sdk/path.zsh.inc ] && source /opt/gcloud/google-cloud-sdk/path.zsh.inc
 [ -f /opt/gcloud/google-cloud-sdk/completion.zsh.inc ] && source /opt/gcloud/google-cloud-sdk/completion.zsh.inc
-[ -f ~/.openai ] && source ~/.openai
+if [ -f ~/.openai ]; then
+  set -a
+  source ~/.openai
+  set +a
+fi
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -d $HOMEBREW_PREFIX/opt/util-linux/bin ] && path=($HOMEBREW_PREFIX/opt/util-linux/bin $path)
 [ -d ~/.cargo/bin ] && path=(~/.cargo/bin $path)
