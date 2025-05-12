@@ -48,6 +48,19 @@
 (add-to-list 'auto-mode-alist '("sys\\.config$" . erlang-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.hocon$" . hcl-mode))
 
+(use-package ivy
+  :custom
+  (ivy-use-virtual-buffers t)
+  (enable-recursive-minibuffers t)
+  (ivy-count-format "(%d/%d) "))
+
+(use-package counsel)
+(keymap-global-set "M-x" #'counsel-M-x)
+(keymap-global-set "C-x C-f" #'counsel-find-file)
+(keymap-global-set "M-y" #'counsel-yank-pop)
+(keymap-global-set "C-x b" #'ivy-switch-buffer)
+
+
 (use-package vertico
   :init
   (vertico-mode)
@@ -124,7 +137,8 @@
   (with-eval-after-load 'copilot
     (maybe-install-copilot-server)))
 
-(use-package copilot-chat)
+(use-package gptel)
+(setq gptel-model 'gemini-2.5-pro-exp-03-25)
 
 (global-set-key [?\M-p] 'scroll-down-line)
 (global-set-key [?\M-n] 'scroll-up-line)
