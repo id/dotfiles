@@ -1,6 +1,4 @@
 export COLORTERM=truecolor
-export HISTSIZE=1000000000
-export SAVEHIST=1000000000
 export EDITOR="emacsclient -t --socket-name ${TMPDIR}emacs$(id -u)/server"
 export PROMPT_EOL_MARK=''
 export LC_CTYPE=en_US.UTF-8

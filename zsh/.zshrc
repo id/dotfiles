@@ -3,11 +3,17 @@ then
   eval "$(/opt/homebrew/bin/brew shellenv zsh)"
 fi
 
-autoload -Uz compinit && compinit
+fpath=(/Users/id/.docker/completions $fpath)
+
+autoload -Uz compinit
+[ ! "$(find ~/.zcompdump -mtime 1)" ] || compinit
+compinit -C
+
+setopt magicequalsubst
 
 zstyle ':completion:*' list-suffixes
 zstyle ':completion:*' expand prefix suffix
-zstyle ':completion:*' menu yes
+zstyle ':completion:*' menu
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*:processes' command 'ps aux'
 zstyle ':completion:*:processes' sort false
@@ -51,7 +57,8 @@ alias erlgrep="find . -name '*.erl' | xargs grep --color=auto -n"
 alias br='git branch --show-current 2> /dev/null'
 alias grum='git rebase upstream/master'
 alias gpom='git push origin master:master'
-alias delete-merged="git branch --merged | /usr/bin/grep -Ev 'master|main' | /usr/bin/grep -v '*' | xargs git branch --delete" #
+alias delete-merged="git branch --merged | /usr/bin/grep -Ev 'master|main|release' | /usr/bin/grep -v '*' | xargs git branch --delete"
+alias delete-gone="git branch -vv | grep ': gone]' | awk '{print $1}' | xargs git branch --delete"
 alias tf=terraform
 alias ssh0='ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
 alias rsync0="rsync -e 'ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'"
@@ -78,8 +85,10 @@ setopt HIST_IGNORE_SPACE         # Do not record an event starting with a space.
 setopt HIST_VERIFY               # Do not execute immediately upon history expansion.
 setopt APPEND_HISTORY            # append to history file
 setopt HIST_NO_STORE             # Don't store history commands
+export HISTSIZE=1048576
+export SAVEHIST=1048576
 
-ulimit -n 122880
+ulimit -n 1048576
 
 function kerl-activate() {
     source $HOME/.kerl/installations/$1/activate
