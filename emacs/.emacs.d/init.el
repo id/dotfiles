@@ -47,6 +47,8 @@
 (add-to-list 'auto-mode-alist '("sys\\.config\\.src$" . erlang-ts-mode))
 (add-to-list 'auto-mode-alist '("sys\\.config$" . erlang-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.hocon$" . hcl-mode))
+(add-to-list 'auto-mode-alist '("\\.jsonc$" . json-ts-mode))
+
 
 (use-package ivy
   :custom
@@ -54,12 +56,11 @@
   (enable-recursive-minibuffers t)
   (ivy-count-format "(%d/%d) "))
 
+(keymap-global-set "C-x b" #'ivy-switch-buffer)
+
 (use-package counsel)
 (keymap-global-set "M-x" #'counsel-M-x)
 (keymap-global-set "C-x C-f" #'counsel-find-file)
-(keymap-global-set "M-y" #'counsel-yank-pop)
-(keymap-global-set "C-x b" #'ivy-switch-buffer)
-
 
 (use-package vertico
   :init
@@ -242,7 +243,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("f64189544da6f16bab285747d04a92bd57c7e7813d8c24c30f382f087d460a33"
+   '("13794b95ba118a1e0f60fe880be9c8a79d881aeb2203656a092f462b2b601629"
+     "f64189544da6f16bab285747d04a92bd57c7e7813d8c24c30f382f087d460a33"
      "10e5d4cc0f67ed5cafac0f4252093d2119ee8b8cb449e7053273453c1a1eb7cc"
      "e4a702e262c3e3501dfe25091621fe12cd63c7845221687e36a79e17cf3a67e0"
      "da75eceab6bea9298e04ce5b4b07349f8c02da305734f7c0c8c6af7b5eaa9738"
