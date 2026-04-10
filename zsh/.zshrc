@@ -3,7 +3,8 @@ then
   eval "$(/opt/homebrew/bin/brew shellenv zsh)"
 fi
 
-fpath=(/Users/id/.docker/completions $fpath)
+[ -f /Users/id/.docker/completions ] && fpath=(/Users/id/.docker/completions $fpath)
+[ -f /opt/homebrew/share/zsh-completions ] && fpath=(/opt/homebrew/share/zsh-completions $fpath)
 
 autoload -Uz compinit
 [ ! "$(find ~/.zcompdump -mtime 1)" ] || compinit
@@ -53,12 +54,10 @@ alias ll='ls -alhGF'
 alias g='grep --color=never'
 alias grep='grep --color=auto'
 alias grepn='grep --color=auto -n'
-alias erlgrep="find . -name '*.erl' | xargs grep --color=auto -n"
 alias br='git branch --show-current 2> /dev/null'
 alias grum='git rebase upstream/master'
 alias gpom='git push origin master:master'
 alias delete-merged="git branch --merged | /usr/bin/grep -Ev 'master|main|release' | /usr/bin/grep -v '*' | xargs git branch --delete"
-alias delete-gone="git branch -vv | grep ': gone]' | awk '{print $1}' | xargs git branch --delete"
 alias tf=terraform
 alias ssh0='ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
 alias rsync0="rsync -e 'ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'"
@@ -102,22 +101,6 @@ function gg() {
     find . -name "*.${1}" | xargs grep --color=always "${2}"
 }
 
-function drvw () {
-    cat <<EOF > /tmp/gitconfig
-[safe]
-  directory = /w
-EOF
-    docker run -it --rm -v $PWD:/w -w /w -v /tmp/gitconfig:/root/.gitconfig $1
-}
-
-function run-builder-amd64 () {
-    cat <<EOF > /tmp/gitconfig
-[safe]
-  directory = /w
-EOF
-    docker run -it --rm --platform linux/amd64 -v $PWD:/w -w /w -v /tmp/gitconfig:/root/.gitconfig ghcr.io/emqx/emqx-builder/5.1-3:1.14.5-25.3.2-1-${1:-ubuntu22.04}
-}
-
 function emqx-token() {
     curl --silent -X 'POST' "http://${1:-127.0.0.1}:18083/api/v5/login" -H 'accept: application/json' -H 'Content-Type: application/json' -d '{"username": "admin","password": "public"}' | jq -r ".token"
 }
@@ -149,14 +132,14 @@ function pr-link() {
 
 # if type rbenv &>/dev/null; then eval "$(rbenv init - zsh)"; fi
 # if type direnv &>/dev/null; then eval "$(direnv hook zsh)"; fi
-[ -f /opt/gcloud/google-cloud-sdk/path.zsh.inc ] && source /opt/gcloud/google-cloud-sdk/path.zsh.inc
-[ -f /opt/gcloud/google-cloud-sdk/completion.zsh.inc ] && source /opt/gcloud/google-cloud-sdk/completion.zsh.inc
-if [ -f ~/.openai ]; then
-  set -a
-  source ~/.openai
-  set +a
-fi
+# if [ -f ~/.openai ]; then
+#   set -a
+#   source ~/.openai
+#   set +a
+# fi
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f /Users/id/Library/Caches/sf/autocomplete/zsh_setup ] && source /Users/id/Library/Caches/sf/autocomplete/zsh_setup
+
 [ -d $HOMEBREW_PREFIX/opt/util-linux/bin ] && path=($HOMEBREW_PREFIX/opt/util-linux/bin $path)
 [ -d ~/.cargo/bin ] && path=(~/.cargo/bin $path)
 [ -d ~/.local/bin ] && path=(~/.local/bin $path)
